@@ -1,0 +1,88 @@
+.sidebar {
+    width: 60px;
+    height: 100vh;
+    background-color: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+  }
+  
+  .logoContainer {
+    margin-bottom: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo {
+    max-width: 40px;
+    max-height: 40px;
+    object-fit: contain;
+  }
+  
+  .toolContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .toolWrapper {
+    width: 40px;
+    height: 40px;
+    background-color: #4c4c4c;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .selected {
+    position: relative;
+  }
+  
+  .selectedIndicator {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #606a80;
+    border-radius: 50%;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .pencilTexture::before,
+  .brushTexture::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 14px;
+    background: linear-gradient(to right, #acabab 50%, transparent 50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+  }
+  
+  .bottomIcons {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .iconWrapper {
+    width: 40px;
+    height: 40px;
+    background-color: #4c4c4c;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }

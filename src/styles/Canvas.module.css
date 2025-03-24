@@ -1,0 +1,12 @@
+.canvasContainer {
+    display: flex;
+    height: 100vh;
+    background-color: #222222;
+  }
+  
+  .canvasArea {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
