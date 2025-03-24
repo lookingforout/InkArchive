@@ -59,7 +59,7 @@
   /* Categories sidebar */
   .categorySidebar {
     width: 256px;
-    background-color: #18181b;
+    background-color: #141414;
     color: white;
   }
   
@@ -97,7 +97,7 @@
   /* Main content area */
   .mainContent {
     flex: 1;
-    background-color: #363636;
+    background-color: #222222;
     padding: 24px;
   }
   

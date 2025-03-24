@@ -4,15 +4,12 @@ import styles from './sidebar.module.css';
 const Sidebar = () => {
   return (
     <div className={styles.sidebarContainer}>
-      {/* Main sidebar*/}
       <div className={styles.iconSidebar}>
         <a href="/" className={styles.iconLink}>
           <div className={styles.logoCircle}>
             <img src="src/assets/logo.png" alt="Logo" className={styles.logoImage} />
           </div>
         </a>
-        
-        {/* Forum*/}
         <a href="/forum" className={styles.iconLink}>
           <div className={styles.forumIconCircle}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2">
@@ -21,7 +18,6 @@ const Sidebar = () => {
           </div>
         </a>
         
-        {/* Art desk*/}
         <a href="/artdesk" className={styles.iconLink}>
           <div className={styles.artdeskIconCircle}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2">
@@ -31,12 +27,10 @@ const Sidebar = () => {
         </a>
       </div>
       
-      {/* Categories sidebar */}
       <div className={styles.categorySidebar}>
         <div className={styles.categoryContainer}>
           <div className={styles.redHeader}>Art Forum</div>
           
-          {/* Forum categories */}
           <div className={styles.sectionContainer}>
             <div className={`${styles.redHeader} ${styles.forumHeader}`}>
               <span>General & Site</span>
@@ -48,7 +42,6 @@ const Sidebar = () => {
             <div className={styles.subCategory}>General & Off-Topic</div>
           </div>
           
-          {/* Art categories */}
           <div className={styles.sectionContainer}>
             <div className={`${styles.redHeader} ${styles.forumHeader}`}>
               <span>Creative</span>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import ForumCategory from "../components/forumcategory";
 import SearchBar from "../components/searchbar";
@@ -6,8 +7,14 @@ import ProfileBar from "../components/profilebar";
 import styles from "../styles/Forum.module.css";
 
 const Forum = () => {
+  const navigate = useNavigate();
+
   const handleSearch = (query) => {
     console.log("Search query:", query);
+  };
+
+  const handleCategoryClick = (path) => {
+    navigate(path);
   };
 
   return (

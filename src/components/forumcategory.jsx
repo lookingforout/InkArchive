@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./forumcategory.module.css";
 
-const ForumCategory = ({ title, description, posts = 0 }) => {
+const ForumCategory = ({ title, description, posts = 0, onClick }) => {
   return (
-    <div className={styles.forumCategory}>
+    <div className={styles.forumCategory} onClick={onClick}>
       <div className={styles.forumText}>
         <h2 className={styles.forumTitle}>{title}</h2>
         <p className={styles.forumDescription}>{description}</p>

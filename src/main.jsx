@@ -7,17 +7,24 @@ import LoginPage from './pages/LoginPage.jsx';
 import Canvas from './pages/Canvas.jsx';
 import Forum from './pages/Forum.jsx';
 import Announcements from './pages/Announcements.jsx';
+import General from './pages/General.jsx';
+import CreatorCorner from './pages/CreatorCorner.jsx';
+import ArtDiscussion from './pages/ArtDiscussion.jsx';
+import ArtTrading from './pages/ArtTrading.jsx';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
       <Routes>
-        {/* Routes are like the routes in Laravel where you say what element is called on what path aka the thing after the slash */}
         <Route path="/" element={<MainPage/>}/>
         <Route path="/login" element={<LoginPage/>}></Route>
         <Route path="/canvas" element={<Canvas/>}></Route>
         <Route path="/forum" element={<Forum/>}></Route>
         <Route path="/forum/announcements" element={<Announcements/>}></Route>
+        <Route path="/forum/general" element={<General/>}></Route>
+        <Route path="/forum/creatorcorner" element={<CreatorCorner/>}></Route>
+        <Route path="/forum/artdiscussion" element={<ArtDiscussion/>}></Route>
+        <Route path="/forum/arttrading" element={<ArtTrading/>}></Route>
       </Routes>
     </Router>
   </React.StrictMode>,
