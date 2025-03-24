@@ -1,0 +1,32 @@
+.searchBar {
+    width: 100%; /* Full width of the parent container */
+    display: flex;
+    justify-content: center;
+  }
+  
+  .inputContainer {
+    position: relative;
+    width: 100%; /* Full width of the container */
+    max-width: 800px; /* Wider search bar */
+  }
+  
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    fill: #757575; /* Icon color */
+    pointer-events: none; /* Makes sure the icon does not block input clicks */
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Add padding to the left for the icon */
+    border: none;
+    border-radius: 8px;
+    background-color: #212121;
+    color: white;
+    font-size: 16px;
+    outline: none;
+  }
+  

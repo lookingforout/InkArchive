@@ -1,0 +1,24 @@
+.profileBar {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between the profile image and username */
+    background-color: #444; /* Optional background color */
+    padding: 5px 15px; /* Slimmer padding */
+    border-radius: 8px;
+    width: 200px; /* Longer width */
+    height: 40px; /* Slimmer height */
+  }
+  
+  .profilePic {
+    width: 30px; /* Smaller profile picture */
+    height: 30px; /* Keeps it circular */
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image covers the circle properly */
+  }
+  
+  .username {
+    color: white;
+    font-size: 14px; /* Slightly smaller font for slimmer bar */
+    font-weight: 500;
+  }
+  

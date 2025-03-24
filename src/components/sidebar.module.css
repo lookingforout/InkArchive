@@ -1,0 +1,113 @@
+/* Container for the entire sidebar layout */
+.sidebarContainer {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Left sidebar with icons */
+  .iconSidebar {
+    width: 64px;
+    background-color: #222222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+  }
+  
+  /* General styling for icon links */
+  .iconLink {
+    margin-bottom: 24px;
+    text-decoration: none;
+  }
+  
+  /* Logo styling */
+  .logoCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #890e1b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logoImage {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Forum icon styling */
+  .forumIconCircle {
+    width: 40px;
+    height: 40px;
+    background-color: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Art desk icon styling */
+  .artdeskIconCircle {
+    width: 40px;
+    height: 40px;
+    background-color: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Categories sidebar */
+  .categorySidebar {
+    width: 256px;
+    background-color: #18181b;
+    color: white;
+  }
+  
+  .categoryContainer {
+    padding: 8px;
+    margin-top: 16px;
+  }
+  
+  /* Red headers for categories */
+  .redHeader {
+    background-color: #9d2431;
+    padding: 8px;
+    margin-bottom: 4px;
+  }
+  
+  /* Headers with icons */
+  .forumHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Sub-categories */
+  .subCategory {
+    padding-left: 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  /* Section containers */
+  .sectionContainer {
+    margin-bottom: 16px;
+  }
+  
+  /* Main content area */
+  .mainContent {
+    flex: 1;
+    background-color: #363636;
+    padding: 24px;
+  }
+  
+  .mainHeading {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 16px;
+  }
+  
+  .mainText {
+    color: white;
+  }

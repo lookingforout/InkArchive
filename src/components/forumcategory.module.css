@@ -1,0 +1,40 @@
+.forumCategory {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e1e;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 1100px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.forumCategory:hover {
+  background-color: #2a2a2a;
+}
+
+.forumText {
+  display: flex;
+  flex-direction: column;
+}
+
+.forumTitle {
+  color: #b22222;
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.forumDescription {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.forumPosts {
+  font-size: 14px;
+  color: #ccc;
+}
