@@ -68,7 +68,7 @@
     border-radius: 4px;
     top: -5px;
     left: -5px;
-    border: 1px;
+    border: 1px solid #aaa;  
   }
   
   .hexDisplay {
@@ -77,7 +77,7 @@
     right: -25px;
     font-family: monospace;
     font-size: 0.9rem;
-    background-color: rgba(255, 255, 255, 0.908);
+    background-color: rgba(255, 255, 255, 0.7);
     padding: 2px 4px;
     border-radius: 4px;
   }
