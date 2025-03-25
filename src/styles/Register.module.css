@@ -1,0 +1,100 @@
+.registerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('src/assets/LoginRegisterBG.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .backButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+  }
+  
+  .registerWrapper {
+    display: flex;
+    background-color: rgba(30, 30, 30, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 800px;
+    height: 500px;
+  }
+  
+  .logoSection {
+    width: 40%;
+    background-color: #141414;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo img {
+    width: 250px;
+    margin-right: 5px;
+  }
+  
+  .tagline {
+    text-align: center;
+    color: #888;
+  }
+  
+  .formSection {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    color: white;
+  }
+  
+  .formSection h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .formSection form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formSection input {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #333;
+    border: none;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .guestButton {
+    background: none;
+    border: 1px solid #888;
+    color: #888;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  
+  .registerButton {
+    background-color: #8B0000;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }

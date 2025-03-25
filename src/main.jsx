@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import App from './App.jsx'
 import MainPage from './pages/MainPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import Canvas from './pages/Canvas.jsx';
 import Forum from './pages/Forum.jsx';
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<MainPage/>}/>
         <Route path="/login" element={<LoginPage/>}></Route>
+        <Route path="/register" element={<RegisterPage/>}></Route>
         <Route path="/canvas" element={<Canvas/>}></Route>
         <Route path="/forum" element={<Forum/>}></Route>
         <Route path="/forum/announcements" element={<Announcements/>}></Route>
