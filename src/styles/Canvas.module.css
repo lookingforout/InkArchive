@@ -1,12 +1,25 @@
 .canvasContainer {
-    display: flex;
-    height: 100vh;
-    background-color: #222222;
-  }
-  
-  .canvasArea {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #222222;
+}
+
+.canvasArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.canvasArea > *:first-child {
+  flex-shrink: 0;
+}
+
+.canvasContent {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1c1c; 
+}

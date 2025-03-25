@@ -1,0 +1,84 @@
+.colorPickerWrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+  
+  .colorPickerContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .hueRing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);
+  }
+  
+  .innerMask {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border-radius: 50%;
+    background-color: rgba(51,51,51,255);
+  }
+  
+  .squareGradient {
+    position: absolute;
+    width: 49%;
+    height: 49%;
+    top: 25.5%;
+    left: 25.5%;
+    cursor: crosshair;
+  }
+  
+  .huePicker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+  
+  .satValPicker {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: transparent;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+  }
+  
+  .colorIndicator {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    top: -5px;
+    left: -5px;
+    border: 1px;
+  }
+  
+  .hexDisplay {
+    position: absolute;
+    top: -5px;
+    right: -25px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.908);
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+  
