@@ -39,21 +39,15 @@
     align-items: center;
     position: relative;
     cursor: pointer;
+    z-index: 1;
   }
   
+  .toolWrapper svg{
+    z-index: 3;
+  }
+
   .selected {
     position: relative;
-  }
-  
-  .selectedIndicator {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background-color: #606a80;
-    border-radius: 50%;
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
   }
   
   .pencilTexture::before,
@@ -85,4 +79,16 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  }
+
+  .selectedIndicator {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background-color: #606a80;
+      border-radius: 10%;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
   }

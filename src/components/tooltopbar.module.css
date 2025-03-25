@@ -1,0 +1,91 @@
+.topToolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 60px;
+    z-index: 10;
+  }
+  
+  .toolbarLeft {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .dropdownContainer {
+    position: relative;
+  }
+  
+  .dropdownButton {
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #4c4c4c;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .dropdown button {
+    padding: 10px;
+    text-align: left;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown button:hover {
+    background-color: #555;
+  }
+  
+  .actionButtons, .zoomButtons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .iconButton {
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .iconButton:hover {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+  }
+  
+  .zoomButtons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profileBarContainer {
+    display: flex;
+    align-items: center;
+  }
