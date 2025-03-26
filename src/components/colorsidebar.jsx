@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './colorsidebar.module.css';
 import ColorWheel from './colorwheel';
+import Layers from './layers';
 
 const ColorSidebar = () => {
   const [brushSize, setBrushSize] = useState(10);
@@ -33,6 +34,7 @@ const ColorSidebar = () => {
           <span>{brushOpacity}%</span>
         </div>
       </div>
+      <Layers />
     </div>
   );
 };
