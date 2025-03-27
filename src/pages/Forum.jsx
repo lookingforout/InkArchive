@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/sidebar";
 import ForumCategory from "../components/forumcategory";
 import SearchBar from "../components/searchbar";
 import ProfileBar from "../components/profilebar";
@@ -25,7 +25,7 @@ const Forum = () => {
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
           <SearchBar onSearch={handleSearch} />
-          <ProfileBar username="User" profilePic={null} />
+          <ProfileBar username={null} profilePic={null} />
         </div>
         <h2 className={styles.sectionTitle}>General & Site</h2>
         <div className={styles.forumContent}>

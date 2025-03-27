@@ -1,25 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './toolsidebar.module.css';
 import logoImage from '../assets/logo.png';
+import { Pencil, Brush, Eraser, Eye, PaintBucket, MousePointer, GripHorizontal, Type, Home, MessageCircle, LayoutGrid } from 'lucide-react';
 
-import { 
-  Pencil, 
-  Brush, 
-  Eraser, 
-  Eye,
-  PaintBucket, 
-  MousePointer, 
-  GripHorizontal,
-  Type, 
-  Home, 
-  MessageCircle, 
-  LayoutGrid 
-} from 'lucide-react';
-
-const ToolSidebar = () => {
+const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
   const navigate = useNavigate();
-  const [selectedTool, setSelectedTool] = useState(null);
 
   const tools = [
     { icon: Home, name: 'home' },
@@ -32,10 +18,6 @@ const ToolSidebar = () => {
     { icon: GripHorizontal, name: 'hand-move' },
     { icon: Type, name: 'text' }
   ];
-
-  const handleToolSelect = (toolName) => {
-    setSelectedTool(toolName);
-  };
 
   const handleLogoClick = () => {
     navigate('/');
@@ -56,7 +38,7 @@ const ToolSidebar = () => {
           <div 
             key={tool.name} 
             className={`${styles.toolWrapper} ${selectedTool === tool.name ? styles.selected : ''}`}
-            onClick={() => handleToolSelect(tool.name)}
+            onClick={() => setSelectedTool(tool.name)}
           >
             {tool.icon && React.createElement(tool.icon, {
               color: "#acabab", 

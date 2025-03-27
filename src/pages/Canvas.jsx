@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ToolSidebar from '../components/toolsidebar';
 import ColorSidebar from '../components/colorsidebar';
 import TopToolbar from '../components/tooltopbar';
+import DrawingCanvas from '../components/drawingcanvas';
 import styles from '../styles/Canvas.module.css';
 
 function Canvas() {
+  const [selectedTool, setSelectedTool] = useState(null);
+
   return (
     <div className={styles.canvasContainer}>
-      <ToolSidebar />
+      <ToolSidebar 
+        selectedTool={selectedTool} 
+        setSelectedTool={setSelectedTool} 
+      />
       <div className={styles.canvasArea}>
         <TopToolbar />
         <div className={styles.canvasContent}>
-          {/* Your actual drawing canvas or editor will go here */}
+          <DrawingCanvas selectedTool={selectedTool} />
         </div>
       </div>
       <ColorSidebar />
