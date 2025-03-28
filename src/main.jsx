@@ -13,6 +13,7 @@ import CreatorCorner from './pages/CreatorCorner.jsx';
 import ArtDiscussion from './pages/ArtDiscussion.jsx';
 import ArtTrading from './pages/ArtTrading.jsx';
 import CreateThread from './pages/CreateThread.jsx';
+import UserProfile from './pages/UserProfile.jsx';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/forum/artdiscussion" element={<ArtDiscussion/>}></Route>
         <Route path="/forum/arttrading" element={<ArtTrading/>}></Route>
         <Route path="/forum/createthread" element={<CreateThread/>}></Route>
+        <Route path="/user" element={<UserProfile/>}></Route>
       </Routes>
     </Router>
   </React.StrictMode>,
