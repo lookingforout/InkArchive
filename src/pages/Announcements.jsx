@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../components/sidebar";
 import SearchBar from "../components/searchbar";
 import ProfileBar from "../components/profilebar";
+import CreateThreadButton from "../components/createthreadbtn";
 import styles from "../styles/Announcements.module.css";
 
 const Announcements = () => {
@@ -20,7 +21,10 @@ const Announcements = () => {
           <ProfileBar username={null} profilePic={null} />
         </div>
         <div className={styles.forumContent}>
-          <div className={styles.sectionTitle}>Announcements</div>
+          <div className={styles.titleContainer}>
+            <div className={styles.sectionTitle}>Announcements</div>
+            <CreateThreadButton />
+          </div>
         </div>
       </div>
     </div>

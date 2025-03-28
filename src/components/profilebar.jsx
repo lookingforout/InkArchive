@@ -5,7 +5,7 @@ const ProfileBar = ({ username, profilePic }) => {
   return (
     <div className={styles.profileBar}>
       <img
-        src={profilePic || "src/assets/noicon.png"} // Default profile picture is "noicon.png"
+        src={profilePic || "../src/assets/noicon.png"}
         alt="Profile"
         className={styles.profilePic}
       />
