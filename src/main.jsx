@@ -1,7 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import App from './App.jsx'
 import MainPage from './pages/MainPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -14,6 +13,7 @@ import ArtDiscussion from './pages/ArtDiscussion.jsx';
 import ArtTrading from './pages/ArtTrading.jsx';
 import CreateThread from './pages/CreateThread.jsx';
 import UserProfile from './pages/UserProfile.jsx';
+import ArtDesk from './pages/ArtDesk.jsx';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -23,6 +23,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<LoginPage/>}></Route>
         <Route path="/register" element={<RegisterPage/>}></Route>
         <Route path="/canvas" element={<Canvas/>}></Route>
+        <Route path="/artdesk" element={<ArtDesk/>}></Route>
         <Route path="/forum" element={<Forum/>}></Route>
         <Route path="/forum/announcements" element={<Announcements/>}></Route>
         <Route path="/forum/general" element={<General/>}></Route>
