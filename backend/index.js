@@ -22,11 +22,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    profilePicture: {
+        type: String,
+        default: "../src/assets/noicon.png"
+    },
     date: {
         type: Date,
         default: Date.now,
     },
-});
+}); 
 
 //Това ти е middleware които се прави с метода pre() в него пишеш какво да става преди изпълнението на функция като save (горе долу същото както във laravel)
 /* Набързо ти копирах всички възможни опции които можеш да ползваш на мястото на save:
@@ -116,6 +120,163 @@ app.post("/login", async (req, resp) => {
         resp.status(200).json(userObject);
     } catch (e) {
         resp.status(500).json({ error: "Login failed", message: e.message });
+    }
+});
+
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = './uploads/';
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ 
+    storage,
+    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = fileTypes.test(file.mimetype);
+        
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb(new Error('Only image files are allowed'));
+    }
+});
+
+app.use('/uploads', express.static('uploads'));
+
+app.put('/api/update-username', async (req, resp) => {
+    try {
+        const { userId, username } = req.body;
+        
+        const existingUser = await User.findOne({ username, _id: { $ne: userId } });
+        if (existingUser) {
+            return resp.status(400).json({ error: 'Username already taken' });
+        }
+        
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { username },
+            { new: true }
+        );
+        
+        if (!updatedUser) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        const userObject = updatedUser.toObject();
+        delete userObject.password;
+        
+        resp.status(200).json(userObject);
+    } catch (error) {
+        console.error('Update username error:', error);
+        resp.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.post('/api/upload-profile-pic', upload.single('profilePicture'), async (req, resp) => {
+    try {
+        if (!req.file) {
+            return resp.status(400).json({ error: 'No file uploaded' });
+        }
+        
+        const { userId } = req.body;
+        const profilePicturePath = `/uploads/${req.file.filename}`;
+        
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profilePicture: profilePicturePath },
+            { new: true }
+        );
+        
+        if (!updatedUser) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        const userObject = updatedUser.toObject();
+        delete userObject.password;
+        
+        resp.status(200).json(userObject);
+    } catch (error) {
+        console.error('Upload profile picture error:', error);
+        resp.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.put('/api/update-profile-picture', async (req, resp) => {
+    try {
+        const { userId, profilePicture } = req.body;
+        
+        if (!profilePicture) {
+            return resp.status(400).json({ error: 'No image provided' });
+        }
+        
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profilePicture },
+            { new: true }
+        );
+        
+        if (!updatedUser) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        const userObject = updatedUser.toObject();
+        delete userObject.password;
+        
+        resp.status(200).json(userObject);
+    } catch (error) {
+        console.error('Update profile picture error:', error);
+        resp.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.delete('/api/delete-user/:userId', async (req, resp) => {
+    try {
+        const { userId } = req.params;
+        
+        const deletedUser = await User.findByIdAndDelete(userId);
+        
+        if (!deletedUser) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        resp.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Delete user error:', error);
+        resp.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.get('/api/user/:userId', async (req, resp) => {
+    try {
+        const { userId } = req.params;
+        
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        const userObject = user.toObject();
+        delete userObject.password;
+        
+        resp.status(200).json(userObject);
+    } catch (error) {
+        console.error('Get user error:', error);
+        resp.status(500).json({ error: 'Server error' });
     }
 });
 

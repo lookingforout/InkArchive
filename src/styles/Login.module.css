@@ -108,3 +108,10 @@
     color: #8B0000;
     text-decoration: none;
   }
+
+  .errorMessage {
+    color: #ff3333;
+    margin: 5px 0;
+    font-size: 14px;
+    text-align: left;
+  }

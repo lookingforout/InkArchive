@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/Register.module.css';
 import { ArrowLeft } from 'lucide-react';
 
@@ -8,17 +8,22 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError('');
+    
     if (password !== confirmPassword) {
-      alert("Passwords don't match");
+      setError("Passwords don't match");
       return;
     }
+    
     console.log('Register attempt', { username, email, password });
-    //същото като login-a
+    
     try {
-      let result = await fetch( 
+      const response = await fetch( 
         'http://localhost:5000/register', {
           method: "post",
           body: JSON.stringify({ username, email, password }),
@@ -26,12 +31,24 @@ const RegisterPage = () => {
             'Content-Type': 'application/json'
           }
         });
-      result = await result.json();
+      
+      const result = await response.json();
       console.log(result);
+      
+      if (response.status === 201) {
+        console.log("Registration successful!");
+        localStorage.setItem('user', JSON.stringify(result));
+        
+        navigate('/forum');
+      } else {
+
+        setError(result.message || "Registration failed. Please try again.");
+      }
     } catch (error) {
+      setError("Network error. Please try again.");
       console.error("Registration error:", error);
     }
-}
+  }
 
   return (
     <div className={styles.registerContainer}>
@@ -78,6 +95,7 @@ const RegisterPage = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required 
             />
+            {error && <p className={styles.errorMessage}>{error}</p>}
             <button type="button" className={styles.guestButton}>
               Use a guest account instead
             </button>

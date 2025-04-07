@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/Login.module.css';
 import { ArrowLeft } from 'lucide-react';
 
@@ -7,12 +7,15 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError('');
     console.log('Login attempt', { email, password });
+    
     try {
-      let result = await fetch( //правим пост заявка с данните от формата (под формата на json)
+      const response = await fetch(
         'http://localhost:5000/login', {
           method: "post",
           body: JSON.stringify({ email, password }),
@@ -20,10 +23,21 @@ const LoginPage = () => {
             'Content-Type': 'application/json'
           }
         });
-      result = await result.json(); //резултата или по скоро отговора който получаваме от backend сървъра
-      setError(result.error); //нещо мъничко което направих да покажа как може да ползваш отговорите на заявката за показване на валидация
-      console.log(result);
+        
+      const result = await response.json();
+      
+      if (response.ok) {
+        console.log("Login successful:", result);
+        
+        localStorage.setItem('user', JSON.stringify(result));
+        
+        navigate('/forum');
+      } else {
+        setError(result.error || "Login failed. Please try again.");
+        console.error("Login failed:", result);
+      }
     } catch (error) {
+      setError("Network error. Please try again.");
       console.error("Login error:", error);
     }
   };
@@ -59,7 +73,7 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               required 
             />
-            <p>{error}</p>  {/*  The shit that shows the errors */}
+            {error && <p className={styles.errorMessage}>{error}</p>}
             <button type="button" className={styles.forgotPassword}>
               Forgot password
             </button>
