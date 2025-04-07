@@ -6,10 +6,26 @@ import { ArrowLeft } from 'lucide-react';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log('Login attempt', { email, password });
+    try {
+      let result = await fetch( //правим пост заявка с данните от формата (под формата на json)
+        'http://localhost:5000/login', {
+          method: "post",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      result = await result.json(); //резултата или по скоро отговора който получаваме от backend сървъра
+      setError(result.error); //нещо мъничко което направих да покажа как може да ползваш отговорите на заявката за показване на валидация
+      console.log(result);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -43,6 +59,7 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               required 
             />
+            <p>{error}</p>  {/*  The shit that shows the errors */}
             <button type="button" className={styles.forgotPassword}>
               Forgot password
             </button>

@@ -9,14 +9,29 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
     }
     console.log('Register attempt', { username, email, password });
-  };
+    //същото като login-a
+    try {
+      let result = await fetch( 
+        'http://localhost:5000/register', {
+          method: "post",
+          body: JSON.stringify({ username, email, password }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      result = await result.json();
+      console.log(result);
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
+}
 
   return (
     <div className={styles.registerContainer}>
