@@ -81,20 +81,6 @@ const UserProfile = () => {
     }
   };
 
-  // Convert image file to base64
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
   const handleProfilePhotoChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -102,42 +88,51 @@ const UserProfile = () => {
     // Check file type and size
     const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
     if (!validImageTypes.includes(file.type)) {
-      setError('Please select a valid image file (JPEG, PNG, or GIF)');
-      return;
+        setError('Please select a valid image file (JPEG, PNG, or GIF)');
+        return;
     }
     
     if (file.size > 2 * 1024 * 1024) {
-      setError('Image size should be less than 2MB');
-      return;
+        setError('Image size should be less than 2MB');
+        return;
     }
     
     setIsLoading(true);
     setError('');
     
     try {
-      // Convert image to base64
-      const base64Image = await convertToBase64(file);
-      
-      // Update user in state with base64 image
-      const updatedUser = { ...user, profilePicture: base64Image };
-      setUser(updatedUser);
-      setProfilePhoto(base64Image);
-      
-      // Save to localStorage
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      
-      // Dispatch custom event to notify ProfileBar of user update
-      window.dispatchEvent(new Event('storage'));
-      
-      // Here you would typically also send this to the backend
-      // But for now we're storing it locally
-      
-      setIsLoading(false);
+        // Create form data to send file
+        const formData = new FormData();
+        formData.append('profilePicture', file);
+        formData.append('userId', user._id);
+        
+        // Send file to backend
+        const response = await fetch('http://localhost:5000/api/upload-profile-pic', {
+            method: 'POST',
+            body: formData,
+            // Don't set Content-Type header, it will be set automatically with boundary
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to upload profile picture');
+        }
+        
+        // Update user in state and localStorage
+        setUser(data);
+        setProfilePhoto(data.profilePicture);
+        localStorage.setItem('user', JSON.stringify(data));
+        
+        // Dispatch custom event to notify ProfileBar of user update
+        window.dispatchEvent(new Event('storage'));
+        
     } catch (err) {
-      setError('Failed to process image');
-      setIsLoading(false);
+        setError(err.message || 'Failed to upload profile picture');
+    } finally {
+        setIsLoading(false);
     }
-  };
+};
 
   const handleDeleteProfile = () => {
     setShowDeletePopup(true);
@@ -183,14 +178,16 @@ const UserProfile = () => {
         {error && <div className={styles.errorMessage}>{error}</div>}
         
         <div className={styles.profileContainer}>
-          <img
-            src={profilePhoto}
-            alt="Profile"
-            className={styles.profilePhoto}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "../src/assets/noicon.png";
-            }}
+        <img
+       src={profilePhoto.startsWith('/uploads') 
+        ? `http://localhost:5000${profilePhoto}` 
+        : profilePhoto}
+    alt="Profile"
+    className={styles.profilePhoto}
+    onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = "../src/assets/noicon.png";
+    }}
           />
           
           {!isEditing ? (

@@ -43,7 +43,9 @@ const ProfileBar = () => {
     <Link to="/user" className={styles.profileLink}>
       <div className={styles.profileBar}>
         <img
-          src={profilePicUrl}
+          src={profilePicUrl.startsWith('/uploads') 
+              ? `http://localhost:5000${profilePicUrl}` 
+              : profilePicUrl}
           alt="Profile"
           className={styles.profilePic}
           onError={(e) => {

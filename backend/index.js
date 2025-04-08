@@ -157,18 +157,18 @@ const upload = multer({
 
 app.use('/uploads', express.static('uploads'));
 
-app.put('/api/update-username', async (req, resp) => {
+app.post('/api/upload-profile-pic', upload.single('profilePicture'), async (req, resp) => {
     try {
-        const { userId, username } = req.body;
-        
-        const existingUser = await User.findOne({ username, _id: { $ne: userId } });
-        if (existingUser) {
-            return resp.status(400).json({ error: 'Username already taken' });
+        if (!req.file) {
+            return resp.status(400).json({ error: 'No file uploaded' });
         }
+        
+        const { userId } = req.body;
+        const profilePicturePath = `/uploads/${req.file.filename}`;
         
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            { username },
+            { profilePicture: profilePicturePath },
             { new: true }
         );
         
@@ -181,7 +181,7 @@ app.put('/api/update-username', async (req, resp) => {
         
         resp.status(200).json(userObject);
     } catch (error) {
-        console.error('Update username error:', error);
+        console.error('Upload profile picture error:', error);
         resp.status(500).json({ error: 'Server error' });
     }
 });
@@ -223,9 +223,14 @@ app.put('/api/update-profile-picture', async (req, resp) => {
             return resp.status(400).json({ error: 'No image provided' });
         }
         
+        // Validate that it's a base64 image
+        if (!profilePicture.startsWith('data:image/')) {
+            return resp.status(400).json({ error: 'Invalid image format' });
+        }
+        
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            { profilePicture },
+            { profilePicture },  // This will store the base64 string directly
             { new: true }
         );
         
