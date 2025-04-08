@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './toolsidebar.module.css';
 import logoImage from '../assets/logo.png';
-import { Pencil, Brush, Eraser, Eye, PaintBucket, MousePointer, GripHorizontal, Type, Home, MessageCircle, LayoutGrid } from 'lucide-react';
+import { Pencil, Brush, Eraser, Eye, PaintBucket, MousePointer, GripHorizontal, Type, Home } from 'lucide-react';
 
 const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
   const navigate = useNavigate();
@@ -50,12 +50,24 @@ const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
         ))}
       </div>
       
-      <div className={styles.bottomIcons}>
-        <div className={styles.iconWrapper}>
-          <MessageCircle color="#acabab" size={24} />
+      <div className={styles.bottomIcons} style={{ marginBottom: '20px' }}>
+        <div
+          className={styles.iconWrapper}
+          onClick={() => navigate('/forum')}
+          style={{ cursor: 'pointer' }}
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ACABAB" strokeWidth="2">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+          </svg>
         </div>
-        <div className={styles.iconWrapper}>
-          <LayoutGrid color="#acabab" size={24} />
+        <div
+          className={styles.iconWrapper}
+          onClick={() => navigate('/artdesk')}
+          style={{ cursor: 'pointer' }}
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ACABAB" strokeWidth="2">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"></path>
+          </svg>
         </div>
       </div>
     </div>

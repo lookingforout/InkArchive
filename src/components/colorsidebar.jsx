@@ -3,13 +3,25 @@ import styles from './colorsidebar.module.css';
 import ColorWheel from './colorwheel';
 import Layers from './layers';
 
-const ColorSidebar = () => {
-  const [brushSize, setBrushSize] = useState(10);
-  const [brushOpacity, setBrushOpacity] = useState(100);
-
+const ColorSidebar = ({ 
+  brushSize, 
+  setBrushSize, 
+  brushOpacity, 
+  setBrushOpacity, 
+  selectedColor, 
+  setSelectedColor,
+  layers,
+  selectedLayerId,
+  setLayers,
+  setSelectedLayerId
+}) => {
   return (
     <div className={styles.sidebar}>
-      <ColorWheel />
+      <ColorWheel 
+        onColorChange={setSelectedColor}
+        initialColor={selectedColor}
+      />
+      
       <div className={styles.brushSettings}>
         <div className={styles.setting}>
           <label>Size:</label>
@@ -18,7 +30,7 @@ const ColorSidebar = () => {
             min="1"
             max="100"
             value={brushSize}
-            onChange={(e) => setBrushSize(e.target.value)}
+            onChange={(e) => setBrushSize(parseInt(e.target.value))}
           />
           <span>{brushSize}px</span>
         </div>
@@ -29,12 +41,18 @@ const ColorSidebar = () => {
             min="1"
             max="100"
             value={brushOpacity}
-            onChange={(e) => setBrushOpacity(e.target.value)}
+            onChange={(e) => setBrushOpacity(parseInt(e.target.value))}
           />
           <span>{brushOpacity}%</span>
         </div>
       </div>
-      <Layers />
+      
+      <Layers 
+        layers={layers}
+        setLayers={setLayers}
+        selectedLayerId={selectedLayerId}
+        setSelectedLayerId={setSelectedLayerId}
+      />
     </div>
   );
 };

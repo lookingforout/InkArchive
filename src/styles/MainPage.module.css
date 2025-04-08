@@ -66,12 +66,12 @@
 }
 
 .drawButton {
-    background: #e74c3c;
+    background: #9D2431;
     color: white;
 }
 
 .drawButton:hover {
-    background: #c0392b;
+    background: #cf3a49;
 }
 
 .content {
@@ -97,7 +97,7 @@
 }
 
 .startButton {
-    background: #e74c3c;
+    background: #9D2431;
     color: white;
     padding: 15px 25px;
     font-size: 1.2rem;
@@ -107,6 +107,6 @@
 }
 
 .startButton:hover {
-    background: #c0392b;
+    background: #cf3a49;
 }
 

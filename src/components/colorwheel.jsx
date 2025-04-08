@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './colorwheel.module.css';
 
-const ColorWheel = ({ onColorChange }) => {
+const ColorWheel = ({ onColorChange, initialColor }) => {
   const hueRingRef = useRef(null);
   const squareGradientRef = useRef(null);
   const huePickerRef = useRef(null);
@@ -10,7 +10,7 @@ const ColorWheel = ({ onColorChange }) => {
   const [hue, setHue] = useState(0);
   const [sat, setSat] = useState(1);
   const [val, setVal] = useState(1);
-  const [hex, setHex] = useState('#ffffff');
+  const [hex, setHex] = useState(initialColor || '#ffffff');
 
   useEffect(() => {
     updateSquareGradient();
@@ -18,6 +18,12 @@ const ColorWheel = ({ onColorChange }) => {
     positionSatValPicker(sat, val);
     updateColorDisplay();
   }, []);
+
+  useEffect(() => {
+    if (initialColor && initialColor !== hex) {
+      setHex(initialColor);
+    }
+  }, [initialColor]);
 
   useEffect(() => {
     updateSquareGradient();
@@ -46,6 +52,8 @@ const ColorWheel = ({ onColorChange }) => {
   const rgbToHex = (r, g, b) => '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 
   const positionHuePicker = (degrees) => {
+    if (!hueRingRef.current || !huePickerRef.current) return;
+    
     const ring = hueRingRef.current;
     const radius = ring.offsetWidth / 2;
     const innerRadius = radius * 0.85;
@@ -55,6 +63,8 @@ const ColorWheel = ({ onColorChange }) => {
   };
 
   const positionSatValPicker = (saturation, value) => {
+    if (!squareGradientRef.current || !satValPickerRef.current) return;
+    
     const gradient = squareGradientRef.current;
     const x = saturation * gradient.offsetWidth;
     const y = (1 - value) * gradient.offsetHeight;
@@ -63,6 +73,8 @@ const ColorWheel = ({ onColorChange }) => {
   };
 
   const updateSquareGradient = () => {
+    if (!squareGradientRef.current) return;
+    
     const { r, g, b } = hsvToRgb(hue, 1, 1);
     const hueHex = rgbToHex(r, g, b);
     squareGradientRef.current.style.background = `
@@ -78,6 +90,8 @@ const ColorWheel = ({ onColorChange }) => {
   };
 
   const handleHueChange = (e) => {
+    if (!hueRingRef.current) return;
+    
     const rect = hueRingRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -88,6 +102,8 @@ const ColorWheel = ({ onColorChange }) => {
   };
 
   const handleSatValChange = (e) => {
+    if (!squareGradientRef.current) return;
+    
     const rect = squareGradientRef.current.getBoundingClientRect();
     let saturation = (e.clientX - rect.left) / rect.width;
     let value = 1 - (e.clientY - rect.top) / rect.height;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './layers.module.css';
 
 const NewLayerIcon = () => (
@@ -29,14 +29,18 @@ const DeleteLayerIcon = () => (
   </svg>
 );
 
-const Layers = () => {
-  const [layers, setLayers] = useState([
-    { id: 1, name: 'Layer #1', opacity: 100, isSelected: true }
-  ]);
+const Layers = ({ layers, setLayers, selectedLayerId, setSelectedLayerId }) => {
+  const [layerOpacity, setLayerOpacity] = React.useState(100);
+  const [nextLayerId, setNextLayerId] = React.useState(2);
 
-  const [layerOpacity, setLayerOpacity] = useState(100);
-  const [selectedLayerId, setSelectedLayerId] = useState(1);
-  const [nextLayerId, setNextLayerId] = useState(2);
+  React.useEffect(() => {
+    if (layers && selectedLayerId) {
+      const selectedLayer = layers.find(layer => layer.id === selectedLayerId);
+      if (selectedLayer) {
+        setLayerOpacity(selectedLayer.opacity);
+      }
+    }
+  }, [selectedLayerId, layers]);
 
   const handleLayerSelect = (id) => {
     setLayers(layers.map(layer => ({
