@@ -22,7 +22,9 @@ const DrawingCanvas = ({
   const [selectionImage, setSelectionImage] = useState(null);
   const [canvasPosition, setCanvasPosition] = useState({ x: 0, y: 0 });
   const [dragStart, setDragStart] = useState(null);
-  const [textInput, setTextInput] = useState({ active: false, x: 0, y: 0, text: "" });
+  const [textInputActive, setTextInputActive] = useState(false);
+  const [textPosition, setTextPosition] = useState({ x: 0, y: 0 });
+  const textInputRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -153,53 +155,57 @@ const DrawingCanvas = ({
     };
   };
 
-  const createTextInput = (x, y) => {
-    const existingInput = document.getElementById("canvas-text-input");
-    if (existingInput) {
-      document.body.removeChild(existingInput);
-    }
-    
-    const input = document.createElement("input");
-    input.type = "text";
-    input.id = "canvas-text-input";
-    input.style.position = "absolute";
-    input.style.left = (x + canvasRef.current.getBoundingClientRect().left) + "px";
-    input.style.top = (y + canvasRef.current.getBoundingClientRect().top) + "px";
-    input.style.background = "transparent";
-    input.style.border = "1px dashed #00a8ff";
-    input.style.outline = "none";
-    input.style.color = selectedColor;
-    input.style.zIndex = "1000";
-    
-    document.body.appendChild(input);
-    input.focus();
+  const startTextInput = (x, y) => {
+    setTextInputActive(true);
+    setTextPosition({ x, y });
 
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const layerCtx = getLayerCtx();
-        if (layerCtx) {
-          layerCtx.font = `${brushSize || 16}px Arial`;
-          layerCtx.fillStyle = selectedColor;
-          layerCtx.fillText(input.value, x, y + (brushSize || 16));
-          renderLayers();
-        }
-        document.body.removeChild(input);
+    // Use setTimeout to ensure DOM is updated before focusing
+    setTimeout(() => {
+      if (textInputRef.current) {
+        textInputRef.current.focus();
       }
-    });
-    
-    input.addEventListener("blur", () => {
-      if (input.value) {
-        const layerCtx = getLayerCtx();
-        if (layerCtx) {
-          layerCtx.font = `${brushSize || 16}px Arial`;
-          layerCtx.fillStyle = selectedColor;
-          layerCtx.fillText(input.value, x, y + (brushSize || 16));
-          renderLayers();
-        }
-      }
-      document.body.removeChild(input);
-    });
+    }, 10);
   };
+
+  const handleTextInputChange = (e) => {
+    // Optional: Handle realtime changes if needed
+  };
+
+  const handleTextInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      applyText(textInputRef.current.value);
+      setTextInputActive(false);
+    } else if (e.key === 'Escape') {
+      setTextInputActive(false);
+    }
+  };
+
+  const handleTextInputBlur = () => {
+    if (textInputRef.current && textInputRef.current.value.trim()) {
+      applyText(textInputRef.current.value);
+    }
+    setTextInputActive(false);
+  };
+
+  const applyText = (text) => {
+    if (!text.trim()) return;
+    
+    const layerCtx = getLayerCtx();
+    if (!layerCtx) return;
+    
+    // Configure text rendering
+    const fontSize = brushSize || 16;
+    layerCtx.font = `${fontSize}px Arial, sans-serif`;
+    layerCtx.fillStyle = selectedColor;
+    layerCtx.textBaseline = "top";
+    
+    // Draw the text on the selected layer
+    layerCtx.fillText(text, textPosition.x, textPosition.y);
+    
+    // Update the canvas display
+    renderLayers();
+  };
+
   const startSelection = (pos) => {
     setSelectionStart(pos);
     setIsSelecting(true);
@@ -290,6 +296,8 @@ const DrawingCanvas = ({
   const handleMouseDown = (e) => {
     if (!ctx) return;
 
+    if (textInputActive) return;
+
     const pos = getMousePos(e);
     lastPosRef.current = pos;
 
@@ -333,7 +341,7 @@ const DrawingCanvas = ({
         break;
 
       case "text":
-        createTextInput(pos.x, pos.y);
+        startTextInput(pos.x, pos.y);
         break;
 
       case "pencil":
@@ -423,6 +431,7 @@ const DrawingCanvas = ({
       document.body.style.cursor = "default";
     }
   };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -431,6 +440,9 @@ const DrawingCanvas = ({
           setSelectionImage(null);
           renderLayers();
         }
+        if (textInputActive) {
+          setTextInputActive(false);
+        }
       }
     };
     
@@ -438,7 +450,28 @@ const DrawingCanvas = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedArea]);
+  }, [selectedArea, textInputActive]);
+
+  const getTextInputStyle = () => {
+    if (!canvasRef.current) return {};
+    
+    const rect = canvasRef.current.getBoundingClientRect();
+    return {
+      position: 'absolute',
+      left: `${textPosition.x + rect.left}px`,
+      top: `${textPosition.y + rect.top}px`,
+      color: selectedColor,
+      fontSize: `${brushSize || 16}px`,
+      fontFamily: 'Arial, sans-serif',
+      background: 'transparent',
+      border: '1px dashed #00a8ff',
+      outline: 'none',
+      padding: '2px',
+      minWidth: '100px',
+      zIndex: 1000,
+      display: textInputActive ? 'block' : 'none'
+    };
+  };
 
   return (
     <div className={styles.canvasContainer}>
@@ -451,6 +484,15 @@ const DrawingCanvas = ({
         onMouseUp={handleMouseUp}
         onMouseOut={handleMouseOut}
       ></canvas>
+      
+      <input
+        type="text"
+        ref={textInputRef}
+        style={getTextInputStyle()}
+        onChange={handleTextInputChange}
+        onKeyDown={handleTextInputKeyDown}
+        onBlur={handleTextInputBlur}
+      />
     </div>
   );
 };
