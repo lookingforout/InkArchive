@@ -1,0 +1,41 @@
+.commentContainer {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 16px;
+    border-radius: 4px;
+    max-width: 700px;
+    margin: 16px auto;
+    font-family: sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+  
+  .username {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .textBox {
+    background-color: #2a2a2a;
+    padding: 12px;
+    border-radius: 4px;
+  }
+  
+  .text {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  

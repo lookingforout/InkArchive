@@ -29,3 +29,20 @@
     margin-bottom: 20px;
   }
   
+  .newArtSection {
+    margin: 20px 0;
+  }
+  
+  .titleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0 10px;
+  }
+  
+  .artworksTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color:white
+  }
+  

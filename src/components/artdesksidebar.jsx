@@ -31,12 +31,6 @@ const Sidebar = () => {
         <div className={styles.categoryContainer}>
           <div className={styles.redHeader}>Art Desk</div>
           <div className={styles.sectionContainer}>
-            <div className={`${styles.redHeader} ${styles.forumHeader}`}>
-              <span>Recents</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" strokeWidth="2">
-                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
-              </svg>
-            </div>
           </div>
         </div>
       </div>
