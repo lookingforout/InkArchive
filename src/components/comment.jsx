@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './comment.module.css';
+import styles from './styles/comment.module.css';
 import defaultAvatar from '../assets/noicon.png';
 
 const Comment = ({ username, text, avatar }) => {

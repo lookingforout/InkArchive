@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./artworksCollection.module.css";
+import styles from "./styles/artworksCollection.module.css";
 
 const ArtworksCollection = ({ userId }) => {
   const [artworks, setArtworks] = useState([]);

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './colorwheel.module.css';
+import styles from './styles/colorwheel.module.css';
 
 const ColorWheel = ({ onColorChange, initialColor }) => {
   const hueRingRef = useRef(null);

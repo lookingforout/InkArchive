@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './colorsidebar.module.css';
+import styles from './styles/colorsidebar.module.css';
 import ColorWheel from './colorwheel';
 import Layers from './layers';
 

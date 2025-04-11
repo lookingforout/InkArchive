@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './createdthread.module.css';
+import styles from './styles/createdthread.module.css';
 import defaultAvatar from '../src/assets/noicon.png';
 
 const CreatedThread = ({ title, username, content, avatar }) => {

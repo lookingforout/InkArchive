@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styles from "./profilebar.module.css";
+import styles from "./styles/profilebar.module.css";
 
 const ProfileBar = ({ username, profilePic, isGuest }) => {
   const defaultPic = "../src/assets/noicon.png";

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './createThreadBtn.module.css';
+import styles from './styles/createThreadBtn.module.css';
 
 const CreateThreadButton = () => {
   const navigate = useNavigate();

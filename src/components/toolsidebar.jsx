@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './toolsidebar.module.css';
+import styles from './styles/toolsidebar.module.css';
 import logoImage from '../assets/logo.png';
 import { Pencil, Brush, Eraser, Eye, PaintBucket, MousePointer, GripHorizontal, Type, Home } from 'lucide-react';
 

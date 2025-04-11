@@ -8,7 +8,7 @@ import {
   Edit 
 } from 'lucide-react';
 import ProfileBar from '../components/profilebar';
-import styles from './tooltopbar.module.css';
+import styles from './styles/tooltopbar.module.css';
 
 const TopToolbar = () => {
   const [fileDropdown, setFileDropdown] = useState(false);

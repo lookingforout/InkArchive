@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './layers.module.css';
+import styles from './styles/layers.module.css';
 
 const NewLayerIcon = () => (
   <svg 

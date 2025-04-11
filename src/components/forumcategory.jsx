@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./forumcategory.module.css";
+import styles from "./styles/forumcategory.module.css";
 
 const ForumCategory = ({ title, description, posts = 0, onClick }) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './newartbtn.module.css';
+import styles from './styles/newartbtn.module.css';
 
 const CreateArtworkButton = () => {
   const navigate = useNavigate();

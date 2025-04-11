@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import styles from './postinput.module.css';
+import styles from './styles/postinput.module.css';
 import { FaImage } from 'react-icons/fa';
 
 const PostInput = ({ onSubmit }) => {

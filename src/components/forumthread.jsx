@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './forumthread.module.css';
+import styles from './styles/forumthread.module.css';
 import defaultAvatar from '../assets/noicon.png';
 
 const ForumThread = ({ title, username, avatar }) => {

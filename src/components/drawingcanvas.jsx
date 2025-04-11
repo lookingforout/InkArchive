@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import styles from "./drawingcanvas.module.css";
+import styles from "./styles/drawingcanvas.module.css";
 
 const DrawingCanvas = ({ 
   selectedTool, 
