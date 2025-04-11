@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar";
 import ForumCategory from "../components/forumcategory";
@@ -8,6 +8,15 @@ import styles from "../styles/Forum.module.css";
 
 const Forum = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   const handleSearch = (query) => {
     console.log("Search query:", query);
@@ -25,7 +34,9 @@ const Forum = () => {
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
           <SearchBar onSearch={handleSearch} />
-          <ProfileBar username={null} profilePic={null} />
+          <ProfileBar username={user ? user.username : null} 
+            profilePic={user ? user.profilePicture : null} 
+            isGuest={user && user.role === 'guest'} />
         </div>
         <h2 className={styles.sectionTitle}>General & Site</h2>
         <div className={styles.forumContent}>

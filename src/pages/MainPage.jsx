@@ -1,16 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/app.css'
 import style from '../styles/MainPage.module.css';
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleStartDrawing = () => {
     navigate('/canvas');
   };
 
   useEffect(() => {
+    // Check if user is logged in when component mounts
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setIsLoggedIn(true);
+    }
+
     const handleMouseMove = (event) => {
       const background = document.querySelector(`.${style.background}`);
       if (!background) return;
@@ -29,6 +36,11 @@ const MainPage = () => {
     return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className={style.mainPage}>
       <div className={style.background}></div>
@@ -39,7 +51,11 @@ const MainPage = () => {
           <span className={style.brandName}>Ink Archive</span>
         </div>
         <div className={style.navButtons}>
-          <button className={style.loginButton} onClick={() => navigate('/login')}>Log In</button>
+          {!isLoggedIn ? (
+            <button className={style.loginButton} onClick={() => navigate('/login')}>Log In</button>
+          ) : (
+            <button className={style.loginButton} onClick={handleLogout}>Log Out</button>
+          )}
           <button className={style.drawButton} onClick={handleStartDrawing}>Draw</button>
         </div>
       </header>

@@ -41,12 +41,35 @@ const RegisterPage = () => {
         
         navigate('/forum');
       } else {
-
         setError(result.message || "Registration failed. Please try again.");
       }
     } catch (error) {
       setError("Network error. Please try again.");
       console.error("Registration error:", error);
+    }
+  }
+
+  const handleGuestLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/guest-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const result = await response.json();
+      
+      if (response.status === 200) {
+        console.log("Guest login successful!");
+        localStorage.setItem('user', JSON.stringify(result));
+        navigate('/forum');
+      } else {
+        setError(result.message || "Guest login failed. Please try again.");
+      }
+    } catch (error) {
+      setError("Network error. Please try again.");
+      console.error("Guest login error:", error);
     }
   }
 
@@ -96,7 +119,11 @@ const RegisterPage = () => {
               required 
             />
             {error && <p className={styles.errorMessage}>{error}</p>}
-            <button type="button" className={styles.guestButton}>
+            <button 
+              type="button" 
+              className={styles.guestButton}
+              onClick={handleGuestLogin}
+            >
               Use a guest account instead
             </button>
             <button type="submit" className={styles.registerButton}>

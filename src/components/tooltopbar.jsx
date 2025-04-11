@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -16,6 +16,15 @@ const TopToolbar = () => {
   const [canvasZoom, setCanvasZoom] = useState(80);
   const [history, setHistory] = useState([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
 
   const toggleFileDropdown = () => {
     setFileDropdown(!fileDropdown);
@@ -78,7 +87,7 @@ const TopToolbar = () => {
     setCanvasZoom(Math.max(canvasZoom - 10, 20));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.key === 'z') {
         handleUndo();
@@ -149,7 +158,9 @@ const TopToolbar = () => {
       </div>
 
       <div className={styles.profileBarContainer}>
-        <ProfileBar />
+        <ProfileBar username={user ? user.username : null} 
+            profilePic={user ? user.profilePicture : null} 
+            isGuest={user && user.role === 'guest'} />
       </div>
     </div>
   );

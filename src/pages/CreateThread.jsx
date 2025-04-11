@@ -9,15 +9,35 @@ const CreateThread = () => {
   const navigate = useNavigate();
   const [threadTitle, setThreadTitle] = useState("");
   const [threadContent, setThreadContent] = useState("");
+  const [image, setImage] = useState("");
 
-  const handlePostThread = () => {
-    console.log("Thread Posted:", { threadTitle, threadContent });
-    navigate("/forum");
-  };
-
+  const handlePostThread = async () => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      let user = JSON.parse(userData);
+      try {
+        const response = await fetch(`http://localhost:5000/forum/general/new_thread`, {
+          method: 'POST',
+          body: JSON.stringify({ title: threadTitle, content: threadContent, image, owner: user._id }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        const result = await response.json();
+        console.log(result);
+      
+        console.log("Thread Posted:", { threadTitle, threadContent });
+        
+        navigate("/forum");
+      }catch(err) {
+          console.error("Thread creation error:", err);
+      };
+    }
+  }
   const handleAddImage = () => {
     console.log("Add Image button clicked");
   };
+
 
   return (
     <div className={styles.createThreadContainer}>
