@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/toolsidebar.module.css';
 import logoImage from '../assets/logo.png';
@@ -6,6 +6,7 @@ import { Pencil, Brush, Eraser, Eye, PaintBucket, MousePointer, GripHorizontal, 
 
 const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   const tools = [
     { icon: Home, name: 'home' },
@@ -22,7 +23,13 @@ const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
   const handleLogoClick = () => {
     navigate('/');
   };
-
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  })
+  
   return (
     <div className={styles.sidebar}>
       <div className={styles.logoContainer} onClick={handleLogoClick}>
@@ -53,7 +60,7 @@ const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
       <div className={styles.bottomIcons} style={{ marginBottom: '20px' }}>
         <div
           className={styles.iconWrapper}
-          onClick={() => navigate('/forum')}
+          onClick={user && user.role === 'guest' ? navigate('/register') : navigate('/forum')}
           style={{ cursor: 'pointer' }}
         >
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ACABAB" strokeWidth="2">
@@ -62,7 +69,7 @@ const ToolSidebar = ({ selectedTool, setSelectedTool }) => {
         </div>
         <div
           className={styles.iconWrapper}
-          onClick={() => navigate('/artdesk')}
+          onClick={user && user.role === 'guest' ? navigate('/register') : navigate('/artdesk')}
           style={{ cursor: 'pointer' }}
         >
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ACABAB" strokeWidth="2">

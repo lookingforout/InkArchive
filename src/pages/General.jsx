@@ -9,6 +9,7 @@ import styles from "../styles/Announcements.module.css";
 const General = () => {
   const [user, setUser] = useState(null);
   const [threads, setThreads] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Get user data from localStorage
@@ -17,16 +18,24 @@ const General = () => {
       setUser(JSON.parse(userData));
     }
     const handleThreads = async () =>{
-      const threads = await fetch("http://localhost:5000/forum/general/threads",{
-        method: 'POST',
-        body: JSON.stringify({ category: "general" }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })      
-      const threading = await threads.json();
-      console.log(threading);
-      setThreads(threading);
+      try {
+        setLoading(true);
+        const threads = await fetch("http://localhost:5000/forum/general/threads",{
+          method: 'POST',
+          body: JSON.stringify({ category: "general" }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })      
+        const threading = await threads.json();
+        console.log(threading);
+        setThreads(threading);
+      }catch(error) {
+        console.error("Error fetching threads:", error);
+        setThreads([]);
+      } finally {
+        setLoading(false);
+      }
     }
     handleThreads();
   }, []);
@@ -55,10 +64,12 @@ const General = () => {
           {(user && user.role === 'guest') ? "" : <CreateThreadButton/>}
           </div>
           <div>
-            {threads.length > 0 ?
-              threads.map((thread) => {
+            {loading ? (
+              <p>Loading threads...</p>
+            ) : threads.length > 0 ?
+              threads.map((thread) => (
                 <ForumThread title={thread.title} owner={thread.owner}/>
-              }) : <p>No threads available in this category.</p>
+              )) : <p>No threads available in this category.</p>
             }
           </div>
         </div>

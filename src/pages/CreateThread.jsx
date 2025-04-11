@@ -11,14 +11,14 @@ const CreateThread = () => {
   const [threadContent, setThreadContent] = useState("");
   const [image, setImage] = useState("");
 
-  const handlePostThread = async () => {
+  const handlePostThread = async ({category}) => {
     const userData = localStorage.getItem('user');
     if (userData) {
       let user = JSON.parse(userData);
       try {
-        const response = await fetch(`http://localhost:5000/forum/general/new_thread`, {
+        const response = await fetch(`http://localhost:5000/forum/${category}/new_thread`, {
           method: 'POST',
-          body: JSON.stringify({ title: threadTitle, content: threadContent, image, category: "general", owner: user._id }),
+          body: JSON.stringify({ title: threadTitle, content: threadContent, image, category, owner: user._id }),
           headers: {
             'Content-Type': 'application/json'
           }
