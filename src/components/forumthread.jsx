@@ -2,17 +2,17 @@ import React from 'react';
 import styles from './styles/forumthread.module.css';
 import defaultAvatar from '../assets/noicon.png';
 
-const ForumThread = ({ title, username, avatar }) => {
+const ForumThread = ({ title, owner }) => {
   return (
     <div className={styles.threadContainer}>
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.userInfo}>
         <img
-          src={avatar || defaultAvatar}
+          src={owner.profilePicture || defaultAvatar}
           alt="User avatar"
           className={styles.avatar}
         />
-        <span className={styles.username}>{username}</span>
+        <span className={styles.username}>{owner.username}</span>
       </div>
     </div>
   );

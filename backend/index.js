@@ -163,21 +163,22 @@ app.post("/guest-login", async (req, resp) => {
     }
 });
 
-app.post("/forum/general/threads", async (req, resp) =>{
-    try{
-        const { category } = req.body;        
-        const threads = Thread.findOne({ category });
-
-        if(threads){
-            const threadList = threads.toObject();
-            resp.status(200).json(threadList);
-        }
-        resp.status(200).json({message: "no threads!"})
-    }catch(err){
-        resp.status(500).json({error: err})
+app.post("/forum/general/threads", async (req, resp) => {
+    try {
+      const { category } = req.body;
+      // Use find() instead of findOne() to get all threads matching the category
+      const threads = await Thread.find({ category });
+  
+      if (threads && threads.length > 0) {
+        resp.status(200).json(threads);
+      } else {
+        resp.status(200).json({ message: "No threads found!" });
+      }
+    } catch (err) {
+      resp.status(500).json({ error: err.message });
     }
-});
-
+  });
+  
 app.post("/forum/general/new_thread", async (req, resp) => {
     try{
         const thread = Thread(req.body);
