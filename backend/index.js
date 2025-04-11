@@ -70,6 +70,11 @@ const ThreadSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    category:{
+        type: String,
+        enum: ['general', 'announcements', 'creative', 'art-trade', 'art-diss'],
+        require: true,
+    },
     date:{
         type: Date,
         default: Date.now,
@@ -155,6 +160,21 @@ app.post("/guest-login", async (req, resp) => {
         resp.status(200).json(guestUser);
     } catch (e) {
         resp.status(500).json({ error: "Guest login failed", message: e.message });
+    }
+});
+
+app.post("/forum/general/threads", async (req, resp) =>{
+    try{
+        const { category } = req.body;        
+        const threads = Thread.findOne({ category });
+
+        if(threads){
+            const threadList = threads.toObject();
+            resp.status(200).json(threadList);
+        }
+        resp.status(200).json({message: "no threads!"})
+    }catch(err){
+        resp.status(500).json({error: err})
     }
 });
 

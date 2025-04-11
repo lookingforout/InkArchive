@@ -18,7 +18,7 @@ const CreateThread = () => {
       try {
         const response = await fetch(`http://localhost:5000/forum/general/new_thread`, {
           method: 'POST',
-          body: JSON.stringify({ title: threadTitle, content: threadContent, image, owner: user._id }),
+          body: JSON.stringify({ title: threadTitle, content: threadContent, image, category: "general", owner: user._id }),
           headers: {
             'Content-Type': 'application/json'
           }

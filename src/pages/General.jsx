@@ -7,6 +7,7 @@ import styles from "../styles/Announcements.module.css";
 
 const General = () => {
   const [user, setUser] = useState(null);
+  const [threads, setThreads] = useState([]);
 
   useEffect(() => {
     // Get user data from localStorage
@@ -14,6 +15,19 @@ const General = () => {
     if (userData) {
       setUser(JSON.parse(userData));
     }
+    const handleThreads = async () =>{
+      const threads = await fetch("http://localhost:5000/forum/general/threads",{
+        method: 'POST',
+        body: JSON.stringify({category: "general"}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(threads.json());
+      
+      // setThreads(threads);
+    }
+    handleThreads();
   }, []);
 
   const handleSearch = (query) => {
@@ -38,6 +52,9 @@ const General = () => {
         <div className={styles.titleContainer}> 
           <div className={styles.sectionTitle}>General & Off-topic</div>
           {(user && user.role === 'guest') ? "" : <CreateThreadButton/>}
+          </div>
+          <div>
+            {}
           </div>
         </div>
       </div>
