@@ -61,15 +61,15 @@ const General = () => {
         <div className={styles.forumContent}>
         <div className={styles.titleContainer}> 
           <div className={styles.sectionTitle}>General & Off-topic</div>
-          {(user && user.role === 'guest') ? "" : <CreateThreadButton/>}
+          {(user && user.role === 'guest') ? "" : <CreateThreadButton category="general"/>}
           </div>
           <div>
             {loading ? (
-              <p>Loading threads...</p>
+              <p className={styles.threadLoading}>Loading threads...</p>
             ) : threads.length > 0 ?
               threads.map((thread) => (
-                <ForumThread title={thread.title} owner={thread.owner}/>
-              )) : <p>No threads available in this category.</p>
+                <ForumThread id={thread._id} title={thread.title} owner={thread.owner}/>
+              )) : <p className={styles.threadLoading}>No threads found!</p>
             }
           </div>
         </div>

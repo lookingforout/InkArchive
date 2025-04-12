@@ -63,7 +63,7 @@ const RegisterPage = () => {
       if (response.status === 200) {
         console.log("Guest login successful!");
         localStorage.setItem('user', JSON.stringify(result));
-        navigate('/forum');
+        navigate('/canvas');
       } else {
         setError(result.message || "Guest login failed. Please try again.");
       }

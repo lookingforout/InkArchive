@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar";
 import SearchBar from "../components/searchbar";
 import ProfileBar from "../components/profilebar";
@@ -10,13 +10,19 @@ const CreateThread = () => {
   const [threadTitle, setThreadTitle] = useState("");
   const [threadContent, setThreadContent] = useState("");
   const [image, setImage] = useState("");
+  const pathname = useLocation().pathname.split("/");
+  
 
-  const handlePostThread = async ({category}) => {
+  const handlePostThread = async () => {
     const userData = localStorage.getItem('user');
+    const category = pathname[pathname.length-1];
+
+    console.log(category[0]);
+    
     if (userData) {
       let user = JSON.parse(userData);
       try {
-        const response = await fetch(`http://localhost:5000/forum/${category}/new_thread`, {
+        const response = await fetch(`http://localhost:5000/forum/new_thread`, {
           method: 'POST',
           body: JSON.stringify({ title: threadTitle, content: threadContent, image, category, owner: user._id }),
           headers: {
@@ -26,9 +32,9 @@ const CreateThread = () => {
         const result = await response.json();
         console.log(result);
       
-        console.log("Thread Posted:", { threadTitle, threadContent });
+        console.log("Thread Posted:", result);
         
-        navigate("/forum");
+        navigate(`/forum/${category}`);
       }catch(err) {
           console.error("Thread creation error:", err);
       };

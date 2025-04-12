@@ -36,6 +36,30 @@ const MainPage = () => {
     return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  const handleGuestLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/guest-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const result = await response.json();
+      
+      if (response.status === 200) {
+        console.log("Guest login successful!");
+        localStorage.setItem('user', JSON.stringify(result));
+        navigate('/canvas');
+      } else {
+        setError(result.message || "Guest login failed. Please try again.");
+      }
+    } catch (error) {
+      setError("Network error. Please try again.");
+      console.error("Guest login error:", error);
+    }
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('user');
     setIsLoggedIn(false);
@@ -56,7 +80,7 @@ const MainPage = () => {
           ) : (
             <button className={style.loginButton} onClick={handleLogout}>Log Out</button>
           )}
-          <button className={style.drawButton} onClick={handleStartDrawing}>Draw</button>
+          <button className={style.drawButton} onClick={isLoggedIn ? handleStartDrawing : handleGuestLogin}>Draw</button>
         </div>
       </header>
 
@@ -64,7 +88,7 @@ const MainPage = () => {
         <div className={style.welcomeContainer}>
           <h1>Welcome to <br />Ink Archive</h1>
           <p>A free drawing platform where you can paint, <br />share your artwork, and connect with fellow <br />artists in the forum. Let your creativity flow!</p>
-          <button className={style.startButton} onClick={handleStartDrawing}>Start Drawing</button>
+          <button className={style.startButton} onClick={isLoggedIn ? handleStartDrawing : handleGuestLogin}>Start Drawing</button>
         </div>
       </main>
     </div>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./styles/profilebar.module.css";
 
 const ProfileBar = ({ username, profilePic, isGuest }) => {
-  const defaultPic = "../src/assets/noicon.png";
+  const defaultPic = "../../src/assets/noicon.png";
   return (
     <Link to={isGuest ? "/register" : "/user"} className={styles.profileLink}>
       <div className={styles.profileBar}>

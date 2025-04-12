@@ -7,7 +7,7 @@ const Sidebar = () => {
       <div className={styles.iconSidebar}>
         <a href="/" className={styles.iconLink}>
           <div className={styles.logoCircle}>
-            <img src="../src/assets/logo.png" alt="Logo" className={styles.logoImage} />
+            <img src="../../src/assets/logo.png" alt="Logo" className={styles.logoImage} />
           </div>
         </a>
         <a href="/forum" className={styles.iconLink}>
