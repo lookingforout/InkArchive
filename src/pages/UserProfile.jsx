@@ -232,20 +232,6 @@ const UserProfile = () => {
                     accept="image/jpeg,image/png,image/gif"
                   />
                   <button 
-                    className={`${styles.actionButton} ${styles.changeButton}`}
-                    disabled={isLoading}
-                  >
-                    Change name
-                  </button>
-                  <input
-                    type="text"
-                    placeholder="new name here"
-                    value={newUsername}
-                    onChange={(e) => setNewUsername(e.target.value)}
-                    className={styles.textInput}
-                    disabled={isLoading}
-                  />
-                  <button 
                     className={`${styles.actionButton} ${styles.deleteButton}`} 
                     onClick={handleDeleteProfile}
                     disabled={isLoading}

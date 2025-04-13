@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles/sidebar.module.css';
+import styles from './styles/usersidebar.module.css';
 
 const UserSidebar = () => {
   return (
@@ -28,9 +28,6 @@ const UserSidebar = () => {
       </div>
       
       <div className={styles.categorySidebar}>
-        <div className={styles.categoryContainer}>
-          <div className={styles.redHeader}>User Profile</div>
-          </div>
         </div>
       </div>
   );
