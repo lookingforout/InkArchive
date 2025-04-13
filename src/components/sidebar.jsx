@@ -53,11 +53,10 @@ const Sidebar = ({ isSidebarHidden, onToggle }) => {
         </div>
       </div>
       <div className={`${styles.hideButton} ${isSidebarHidden ? styles.open : ''}`} onClick={handleToggle}>
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-</div>
-
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </div>
     </div>
   );
 };
