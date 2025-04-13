@@ -1,101 +1,115 @@
 .sidebarContainer {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .iconSidebar {
-    width: 64px;
-    background-color: #222222;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 16px;
-  }
-  
-  .iconLink {
-    margin-bottom: 24px;
-    text-decoration: none;
-  }
-  
-  .logoCircle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #890e1b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .logoImage {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .forumIconCircle {
-    width: 40px;
-    height: 40px;
-    background-color: #141414;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .artdeskIconCircle {
-    width: 40px;
-    height: 40px;
-    background-color: #141414;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .categorySidebar {
-    width: 256px;
-    background-color: #141414;
-    color: white;
-  }
-  
-  .categoryContainer {
-    padding: 8px;
-    margin-top: 16px;
-  }
-  
-  .redHeader {
-    background-color: #9d2431;
-    padding: 8px;
-    margin-bottom: 4px;
-  }
-  
-  .forumHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .subCategory {
-    padding-left: 16px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-  }
-  
-  .sectionContainer {
-    margin-bottom: 16px;
-  }
-  
-  .mainContent {
-    flex: 1;
-    background-color: #222222;
-    padding: 24px;
-  }
-  
-  .mainHeading {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 16px;
-  }
-  
-  .mainText {
-    color: white;
-  }
+  display: flex;
+  height: 100vh;
+  transition: transform 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.sidebarContainer.hidden {
+  transform: translateX(-100%);
+}
+
+.iconSidebar {
+  width: 64px;
+  background-color: #222222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+  position: relative;
+}
+
+.iconLink {
+  margin-bottom: 24px;
+  text-decoration: none;
+}
+
+.logoCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #890e1b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoImage {
+  width: 32px;
+  height: 32px;
+}
+
+.forumIconCircle,
+.artdeskIconCircle {
+  width: 40px;
+  height: 40px;
+  background-color: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categorySidebar {
+  width: 256px;
+  background-color: #141414;
+  color: white;
+  position: relative;
+}
+
+.categoryContainer {
+  padding: 8px;
+  margin-top: 16px;
+}
+
+.redHeader {
+  background-color: #9d2431;
+  padding: 8px;
+  margin-bottom: 4px;
+}
+
+.forumHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subCategory {
+  padding-left: 16px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.sectionContainer {
+  margin-bottom: 16px;
+}
+
+.hideButton {
+  position: absolute;
+  top: 16px;
+  right: -24px;
+  background-color: #363636;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hideButton:hover {
+  background-color: #494949;
+}
+
+.hideButton svg {
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+.hideButton.open svg {
+  transform: rotate(180deg);
+}

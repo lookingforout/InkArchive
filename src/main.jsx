@@ -14,7 +14,6 @@ import ArtTrading from './pages/ArtTrading.jsx';
 import CreateThread from './pages/CreateThread.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import ArtDesk from './pages/ArtDesk.jsx';
-import Thread from './pages/Thread.jsx';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -28,11 +27,10 @@ createRoot(document.getElementById('root')).render(
         <Route path="/forum" element={<Forum/>}></Route>
         <Route path="/forum/announcements" element={<Announcements/>}></Route>
         <Route path="/forum/general" element={<General/>}></Route>
-        <Route path="/forum/general/:thread" element={<Thread/>}></Route>
         <Route path="/forum/creatorcorner" element={<CreatorCorner/>}></Route>
         <Route path="/forum/artdiscussion" element={<ArtDiscussion/>}></Route>
         <Route path="/forum/arttrading" element={<ArtTrading/>}></Route>
-        <Route path="/forum/createthread/:category" element={<CreateThread/>}></Route>
+        <Route path="/forum/createthread" element={<CreateThread/>}></Route>
         <Route path="/user" element={<UserProfile/>}></Route>
       </Routes>
     </Router>

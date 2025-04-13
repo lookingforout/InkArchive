@@ -2,14 +2,10 @@ require('dotenv').config()
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const mongoConnectionString = process.env.MONGODB_CON;
-const adminPassword = process.env.ADMIN_PASS;
 
 console.log(mongoConnectionString);
 mongoose.connect(mongoConnectionString, { dbName: 'Test'})
-.then(() => { 
-    console.log('Connected to database') 
-    adminUser()
-})
+.then(() => { console.log('Connected to database') })
 .catch((err) => {console.log(err)});
 
 const UserSchema = new mongoose.Schema({
@@ -85,9 +81,12 @@ const ThreadSchema = new mongoose.Schema({
     }
 })
 
+// ThreadSchema.pre('save', async function(next) {
+//     if(this.owner.role === 'guest') return next();
+// })
+
 const User = mongoose.model('Users', UserSchema);
 User.createIndexes();
-
 
 const Thread = mongoose.model('threads', ThreadSchema);
 Thread.createIndexes();
@@ -100,26 +99,6 @@ app.use(cors());
 app.get("/", (req, resp) => { 
     resp.send("App is Working");
 });
-
-async function adminUser() {
-    try {
-      const adminExists = await User.findOne({ role: 'admin' });
-      
-      if (!adminExists) {
-        const adminUser = new User({
-          username: process.env.ADMIN_USERNAME || 'admin',
-          email: process.env.ADMIN_EMAIL || 'admin@inkarchive',
-          password: process.env.ADMIN_PASS,
-          role: 'admin',
-          profilePicture: "../src/assets/admin-icon.png"
-        });
-        await adminUser.save();
-        console.log('Default admin user created');
-      }
-    } catch (error) {
-      console.error('Failed to ensure admin exists:', error);
-    }
-}
 
 
 app.post("/register", async (req, resp) => {
@@ -187,6 +166,7 @@ app.post("/guest-login", async (req, resp) => {
 app.post("/forum/general/threads", async (req, resp) => {
     try {
       const { category } = req.body;
+      // Use find() instead of findOne() to get all threads matching the category
       const threads = await Thread.find({ category });
   
       if (threads && threads.length > 0) {
@@ -198,23 +178,8 @@ app.post("/forum/general/threads", async (req, resp) => {
       resp.status(500).json({ error: err.message });
     }
   });
-
-  app.get("/forum/general/:id", async (req, resp) => {
-    try {
-      const { id } = req.params;
-      const threads = await Thread.findById(id);
   
-      if (threads) {
-        resp.status(200).json(threads);
-      } else {
-        resp.status(200).json({ message: "No thread found!" });
-      }
-    } catch (err) {
-      resp.status(500).json({ error: err.message });
-    }
-  });
-  
-app.post("/forum/new_thread", async (req, resp) => {
+app.post("/forum/general/new_thread", async (req, resp) => {
     try{
         const thread = Thread(req.body);
         let result = await thread.save();
@@ -392,5 +357,5 @@ app.get('/api/user/:userId', async (req, resp) => {
     }
 });
 
-app.listen(5000);
+app.listen(5000); //Това е последното нещо което се run-ва давайки старт на всичко това (сървъра).
 console.log("App listen at port 5000");
