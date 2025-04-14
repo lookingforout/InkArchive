@@ -9,9 +9,9 @@ import styles from "../styles/Forum.module.css";
 const Forum = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [isSidebarHidden, setIsSidebarHidden] = useState(false);
 
   useEffect(() => {
+    // Get user data from localStorage
     const userData = localStorage.getItem('user');
     if (userData) {
       setUser(JSON.parse(userData));
@@ -29,16 +29,14 @@ const Forum = () => {
   return (
     <div className={styles.forumContainer}>
       <div className={styles.sidebar}>
-        <Sidebar isSidebarHidden={isSidebarHidden} onToggle={setIsSidebarHidden} />
+        <Sidebar />
       </div>
-      <div className={`${styles.mainContent} ${isSidebarHidden ? styles.sidebarHidden : ''}`}>
+      <div className={styles.mainContent}>
         <div className={styles.topBar}>
           <SearchBar onSearch={handleSearch} />
-          <ProfileBar
-            username={user ? user.username : null}
-            profilePic={user ? user.profilePicture : null}
-            isGuest={user && user.role === 'guest'}
-          />
+          <ProfileBar username={user ? user.username : null} 
+            profilePic={user ? user.profilePicture : null} 
+            isGuest={user && user.role === 'guest'} />
         </div>
         <h2 className={styles.sectionTitle}>General & Site</h2>
         <div className={styles.forumContent}>

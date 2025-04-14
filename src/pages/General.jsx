@@ -20,9 +20,8 @@ const General = () => {
     const handleThreads = async () =>{
       try {
         setLoading(true);
-        const threads = await fetch("http://localhost:5000/forum/general/threads",{
-          method: 'POST',
-          body: JSON.stringify({ category: "general" }),
+        const threads = await fetch("http://localhost:5000/forum/threads/general",{
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
@@ -68,7 +67,7 @@ const General = () => {
               <p className={styles.threadLoading}>Loading threads...</p>
             ) : threads.length > 0 ?
               threads.map((thread) => (
-                <ForumThread id={thread._id} title={thread.title} owner={thread.owner}/>
+                <ForumThread id={thread._id} title={thread.title} ownerId={thread.owner}/>
               )) : <p className={styles.threadLoading}>No threads found!</p>
             }
           </div>

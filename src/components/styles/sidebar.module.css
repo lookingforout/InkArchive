@@ -1,34 +1,6 @@
 .sidebarContainer {
   display: flex;
   height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  /* Remove the transition from here - will only apply in media query */
-}
-
-/* The hidden class will only apply on mobile/tablet */
-@media (max-width: 768px) {
-  .sidebarContainer {
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .sidebarContainer.hidden {
-    transform: translateX(-100%);
-  }
-}
-
-/* On desktop, never hide the sidebar */
-@media (min-width: 769px) {
-  .sidebarContainer.hidden {
-    transform: none; /* Override any hiding */
-  }
-  
-  /* Hide the toggle button on desktop */
-  .hideButton {
-    display: none !important;
-  }
 }
 
 .iconSidebar {
@@ -38,7 +10,6 @@
   flex-direction: column;
   align-items: center;
   padding-top: 16px;
-  position: relative;
 }
 
 .iconLink {
@@ -61,7 +32,15 @@
   height: 32px;
 }
 
-.forumIconCircle,
+.forumIconCircle {
+  width: 40px;
+  height: 40px;
+  background-color: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .artdeskIconCircle {
   width: 40px;
   height: 40px;
@@ -75,7 +54,6 @@
   width: 256px;
   background-color: #141414;
   color: white;
-  position: relative;
 }
 
 .categoryContainer {
@@ -105,30 +83,19 @@
   margin-bottom: 16px;
 }
 
-.hideButton {
-  position: absolute;
-  top: 16px;
-  right: -24px;
-  background-color: #363636;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.mainContent {
+  flex: 1;
+  background-color: #222222;
+  padding: 24px;
 }
 
-.hideButton:hover {
-  background-color: #494949;
+.mainHeading {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 16px;
 }
 
-.hideButton svg {
-  transform: rotate(0deg);
-  transition: transform 0.3s ease;
-}
-
-.hideButton.open svg {
-  transform: rotate(180deg);
+.mainText {
+  color: white;
 }

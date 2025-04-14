@@ -8,6 +8,7 @@ const ForumCategory = ({ title, description, posts = 0, onClick }) => {
         <h2 className={styles.forumTitle}>{title}</h2>
         <p className={styles.forumDescription}>{description}</p>
       </div>
+      <span className={styles.forumPosts}>{posts} posts</span>
     </div>
   );
 };

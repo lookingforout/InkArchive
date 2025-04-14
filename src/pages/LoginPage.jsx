@@ -74,6 +74,9 @@ const LoginPage = () => {
               required 
             />
             {error && <p className={styles.errorMessage}>{error}</p>}
+            <button type="button" className={styles.forgotPassword}>
+              Forgot password
+            </button>
             <button type="submit" className={styles.loginButton}>
               Log in
             </button>

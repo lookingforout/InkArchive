@@ -1,45 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Sidebar from "../components/sidebar";
 import SearchBar from "../components/searchbar";
 import ProfileBar from "../components/profilebar";
 import CreateThreadButton from "../components/createthreadbtn";
-import ForumThread from "../components/forumthread";
 import styles from "../styles/Announcements.module.css";
+import ForumThread from "../components/forumthread";
 
 const Announcements = () => {
   const [user, setUser] = useState(null);
   const [threads, setThreads] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     // Get user data from localStorage
     const userData = localStorage.getItem('user');
     if (userData) {
       setUser(JSON.parse(userData));
     }
-    
-    const fetchThreads = async () => {
+    const handleThreads = async () =>{
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:5000/forum/general/threads", {
-          method: 'POST',
-          body: JSON.stringify({ category: "announcements" }),
+        const threads = await fetch("http://localhost:5000/forum/threads/announcements",{
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
-        });      
-        const data = await response.json();
-        console.log(data);
-        setThreads(data);
-      } catch(error) {
+        })      
+        const threading = await threads.json();
+        console.log(threading);
+        setThreads(threading);
+      }catch(error) {
         console.error("Error fetching threads:", error);
         setThreads([]);
       } finally {
         setLoading(false);
       }
-    };
-    
-    fetchThreads();
+    }
+    handleThreads();
   }, []);
 
   const handleSearch = (query) => {
@@ -62,14 +59,14 @@ const Announcements = () => {
         <div className={styles.forumContent}>
           <div className={styles.titleContainer}>
             <div className={styles.sectionTitle}>Announcements</div>
-            {(user && user.role === 'admin') ? <CreateThreadButton category="announcements" /> : ""}
+            {(user && user.role === 'admin') ? <CreateThreadButton category="announcements"/> : ""}
           </div>
           <div>
-            {loading ? (
+             {loading ? (
               <p className={styles.threadLoading}>Loading threads...</p>
             ) : threads.length > 0 ?
               threads.map((thread) => (
-                <ForumThread key={thread._id} id={thread._id} title={thread.title} owner={thread.owner} />
+                <ForumThread id={thread._id} title={thread.title} ownerId={thread.owner}/>
               )) : <p className={styles.threadLoading}>No threads found!</p>
             }
           </div>

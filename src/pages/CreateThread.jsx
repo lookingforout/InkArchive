@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar";
 import SearchBar from "../components/searchbar";
@@ -10,40 +10,42 @@ const CreateThread = () => {
   const [threadTitle, setThreadTitle] = useState("");
   const [threadContent, setThreadContent] = useState("");
   const [image, setImage] = useState("");
+  const [user, setUser] = useState(null);
   const pathname = useLocation().pathname.split("/");
-  
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  },[])
 
   const handlePostThread = async () => {
-    const userData = localStorage.getItem('user');
     const category = pathname[pathname.length-1];
 
     console.log(category[0]);
     
-    if (userData) {
-      let user = JSON.parse(userData);
-      try {
-        const response = await fetch(`http://localhost:5000/forum/new_thread`, {
-          method: 'POST',
-          body: JSON.stringify({ title: threadTitle, content: threadContent, image, category, owner: user._id }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        const result = await response.json();
-        console.log(result);
+    try {
+      const response = await fetch(`http://localhost:5000/forum/new_thread`, {
+        method: 'POST',
+        body: JSON.stringify({ title: threadTitle, content: threadContent, image, category, owner: user._id }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      console.log(result);
+    
+      console.log("Thread Posted:", result);
       
-        console.log("Thread Posted:", result);
-        
-        navigate(`/forum/${category}`);
-      }catch(err) {
-          console.error("Thread creation error:", err);
-      };
-    }
+      navigate(`/forum/${category}`);
+    }catch(err) {
+        console.error("Thread creation error:", err);
+    };
   }
   const handleAddImage = () => {
     console.log("Add Image button clicked");
   };
-
 
   return (
     <div className={styles.createThreadContainer}>
@@ -53,8 +55,9 @@ const CreateThread = () => {
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
           <SearchBar onSearch={(query) => console.log("Search query:", query)} />
-          <ProfileBar username={null} profilePic={null} />
-        </div>
+          <ProfileBar username={user ? user.username : null} 
+            profilePic={user ? user.profilePicture : null} 
+            isGuest={user && user.role === 'guest'} />        </div>
         <h1 className={styles.header}>Create Thread</h1>
         <input
           type="text"

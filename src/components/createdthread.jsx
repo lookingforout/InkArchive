@@ -3,11 +3,6 @@ import styles from './styles/createdthread.module.css';
 import defaultPic from '../../src/assets/noicon.png';
 
 const CreatedThread = ({ thread, owner }) => {
-  useEffect(() => {
-    console.log(thread);
-    console.log(owner);
-  },[])
- 
   return (
     <div className={styles.threadContainer}>
       <div className={styles.header}>
