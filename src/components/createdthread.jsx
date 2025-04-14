@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './styles/createdthread.module.css';
 import defaultPic from '../../src/assets/noicon.png';
+import PostInput from './postcomment';
 
 const CreatedThread = ({ thread, owner }) => {
   return (
@@ -27,6 +28,7 @@ const CreatedThread = ({ thread, owner }) => {
         <span className={styles.commentLabel}>Comments</span>
         <hr className={styles.line} />
       </div>
+      <PostInput/>
     </div>
   );
 };

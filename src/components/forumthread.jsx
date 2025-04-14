@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles/forumthread.module.css';
 import defaultAvatar from '../assets/noicon.png';
 import { useNavigate } from 'react-router-dom';
+import PostInput from './postcomment.jsx';
+
 
 const ForumThread = ({ id, title, ownerId }) => {
   const [owner, setOwner] = useState([]);
@@ -38,7 +40,6 @@ const ForumThread = ({ id, title, ownerId }) => {
           alt="User avatar"
           className={styles.avatar}
         />
-        
       </div>
     </div>
   );

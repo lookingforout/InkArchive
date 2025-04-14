@@ -1,12 +1,9 @@
 .threadContainer {
-    background-color: #2d2d2d;
-    color: #ffffff;
-    padding: 16px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  background-color: #2d2d2d;
+  color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+}
   
   .header {
     display: flex;

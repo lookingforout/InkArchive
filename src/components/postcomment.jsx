@@ -1,18 +1,35 @@
-import React, { useRef } from 'react';
-import styles from './styles/postinput.module.css';
-import { FaImage } from 'react-icons/fa';
+import React, { useEffect, useRef, useState } from 'react';
+import styles from '../components/styles/postcomment.module.css';
+import { useLocation } from 'react-router-dom';
 
-const PostInput = ({ onSubmit }) => {
-  const fileInputRef = useRef();
+const PostInput = () => {
+  const [user, setUser] = useState(null);
+  const [content, setContent] = useState("");
+  const pathname = useLocation().pathname.split("/");
 
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
+  
+  useEffect(()=>{
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  },[]);
 
-  const handlePost = () => {
-    // logic to send post data will be implemented later
-    onSubmit && onSubmit();
+  const handlePost = async () => {
+    const response = await fetch(`http://localhost:5000/forum/thread/create_comment`, {
+      method: 'POST',
+      body: JSON.stringify({ post: pathname[pathname-1], owner: user._id, content: fileInputRef }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const result = await response.json();
+    console.log(result);
   };
+  
 
   return (
     <div className={styles.postContainer}>
@@ -20,13 +37,12 @@ const PostInput = ({ onSubmit }) => {
         <textarea
           className={styles.textArea}
           placeholder="Write something..."
+          onChange={(e)=>{setContent(e.currentTarget.value)}}
         />
         <div className={styles.imageIcon} onClick={handleImageClick}>
-          <FaImage />
           <input
             type="file"
             accept="image/*"
-            ref={fileInputRef}
             className={styles.hiddenInput}
           />
         </div>

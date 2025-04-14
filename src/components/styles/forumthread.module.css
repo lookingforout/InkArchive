@@ -6,8 +6,7 @@
     align-items: center;
     padding: 16px;
     border-radius: 4px;
-    max-width: 700px;
-    margin: 16px auto;
+    margin-bottom: 10px;
     font-family: sans-serif;
   }
   
@@ -16,6 +15,9 @@
     font-weight: 600;
     color: #c62828; /* deep red like in image */
     margin: 0;
+    padding-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .userInfo {

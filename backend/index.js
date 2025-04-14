@@ -85,12 +85,33 @@ const ThreadSchema = new mongoose.Schema({
     }
 })
 
+const Comments = new mongoose.Schema({
+    post:{
+        type: String,
+        require: true,
+    },
+    owner:{
+        type: String,
+        require: true,
+    },
+    content:{
+        type: String,
+        require: true,
+    },
+    date:{
+        type: Date,
+        default: Date.now,
+    }
+})
+
 const User = mongoose.model('Users', UserSchema);
 User.createIndexes();
 
-
 const Thread = mongoose.model('threads', ThreadSchema);
 Thread.createIndexes();
+
+const Comment = mongoose.model('comments', Comments);
+Comment.createIndexes();
 
 const express = require('express');
 const app = express();
@@ -198,21 +219,6 @@ app.get("/forum/threads/:category", async (req, resp) => {
       resp.status(500).json({ error: err.message });
     }
   });
-
-  app.get("/forum/general/:id", async (req, resp) => {
-    try {
-      const { id } = req.params;
-      const threads = await Thread.findById(id);
-  
-      if (threads) {
-        resp.status(200).json(threads);
-      } else {
-        resp.status(200).json({ message: "No thread found!" });
-      }
-    } catch (err) {
-      resp.status(500).json({ error: err.message });
-    }
-  });
   
 app.post("/forum/new_thread", async (req, resp) => {
     try{
@@ -226,6 +232,21 @@ app.post("/forum/new_thread", async (req, resp) => {
         }
     }catch(e){
         resp.status(500).json({err: "Failed to create thread!"})
+    }
+})
+
+app.post("/forum/thread/create_comment", async (req, resp) => {
+    try{
+        const comment = Comment(req.body);
+        let result = await comment.save();
+
+        result = result.toObject();
+        if (result) {
+            resp.status(201).json(result);
+            console.log("Comment Made:", result);
+        }
+    }catch(e){
+        resp.status(500).json({err: "Failed to create comment!"})
     }
 })
 
@@ -393,7 +414,38 @@ app.get('/api/user/:userId', async (req, resp) => {
 });
 
 app.post('/api/update-username/:userId', async (req, resp) => {
-    
+    try {
+        const { userId } = req.params;
+        const { username } = req.body;
+        
+        if (!username || username.trim() === '') {
+            return resp.status(400).json({ error: 'Username cannot be empty' });
+        }
+        
+        // Check if the username is already taken
+        const existingUser = await User.findOne({ username, _id: { $ne: userId } });
+        if (existingUser) {
+            return resp.status(409).json({ error: 'Username is already taken' });
+        }
+        
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { username },
+            { new: true }
+        );
+        
+        if (!updatedUser) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        const userObject = updatedUser.toObject();
+        delete userObject.password;
+        
+        resp.status(200).json(userObject);
+    } catch (error) {
+        console.error('Update username error:', error);
+        resp.status(500).json({ error: 'Server error' });
+    }
 });
 
 app.listen(5000);

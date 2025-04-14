@@ -32,11 +32,19 @@ body, html {
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+  z-index: 10;
+}
+
+@media only screen and (max-width: 480px) {
+  .sidebar{
+    display: none;
+    position: absolute;
+  }
 }
 
 .mainContent {
-  flex: 1;
   display: flex;
+  width: 100vw;
   flex-direction: column;
   padding: 20px;
   overflow-y: auto;
@@ -50,10 +58,10 @@ body, html {
 
 .topBar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  gap:10px;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .forumContent {

@@ -50,13 +50,12 @@ const UserProfile = () => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/update-username', {
-        method: 'PUT',
+      const response = await fetch(`http://localhost:5000/api/update-username/${user._id}`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: user._id,
           username: newUsername,
         }),
       });
