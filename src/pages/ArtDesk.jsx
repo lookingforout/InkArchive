@@ -21,6 +21,9 @@ const ArtDesk = () => {
     console.log("Search query:", query);
   };
 
+  // Check if user is a guest
+  const isGuest = user && user.role === 'guest';
+
   return (
     <div className={styles.artDeskContainer}>
       <div className={styles.sidebar}>
@@ -29,15 +32,24 @@ const ArtDesk = () => {
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
           <SearchBar onSearch={handleSearch} />
-          <ProfileBar username={user ? user.username : null} 
+          <ProfileBar 
+            username={user ? user.username : null} 
             profilePic={user ? user.profilePicture : null} 
-            isGuest={user && user.role === 'guest'} />
+            isGuest={isGuest} 
+          />
         </div>
-          <div className={styles.titleRow}>
-              <h2 className={styles.artworksTitle}>My Artworks</h2>
-              <CreateArtworkButton />
+        <div className={styles.titleRow}>
+          <h2 className={styles.artworksTitle}>My Artworks</h2>
+          <CreateArtworkButton />
+        </div>
+        
+        {isGuest ? (
+          <div className={styles.guestMessage}>
+            Guest users cannot save drawings. Please register for an account to save your artwork.
           </div>
-          <ArtworksCollection userId={"123"} />
+        ) : (
+          <ArtworksCollection userId={user ? user._id : null} />
+        )}
       </div>
     </div>
   );
