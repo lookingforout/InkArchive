@@ -104,6 +104,33 @@ const Comments = new mongoose.Schema({
     }
 })
 
+const DrawingSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Users',
+        required: true,
+    },
+    filename: {
+        type: String,
+        required: true,
+    },
+    filepath: {
+        type: String,
+        required: true,
+    },
+    title: {
+        type: String,
+        default: 'Untitled Drawing'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
+});
+
+const Drawing = mongoose.model('drawings', DrawingSchema);
+Drawing.createIndexes();    
+
 const User = mongoose.model('Users', UserSchema);
 User.createIndexes();
 
@@ -333,7 +360,149 @@ const upload = multer({
     }
 });
 
+const drawingStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = './uploads/drawings/';
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `drawing-${Date.now()}${path.extname(file.originalname)}`);
+    }
+});
+
+const drawingUpload = multer({ 
+    storage: drawingStorage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit for drawings
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif|webp/;
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = fileTypes.test(file.mimetype);
+        
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb(new Error('Only image files are allowed'));
+    }
+});
+
 app.use('/uploads', express.static('uploads'));
+
+app.post('/api/drawings/save', drawingUpload.single('image'), async (req, resp) => {
+    try {
+        if (!req.file) {
+            return resp.status(400).json({ error: 'No file uploaded' });
+        }
+        
+        const { userId } = req.body;
+        
+        // Verify user exists and is not a guest
+        const user = await User.findById(userId);
+        if (!user) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        if (user.role === 'guest') {
+            return resp.status(403).json({ error: 'Guest users cannot save drawings' });
+        }
+        
+        const filepath = `/uploads/drawings/${req.file.filename}`;
+        
+        // Create drawing record in database
+        const drawing = new Drawing({
+            userId,
+            filename: req.file.filename,
+            filepath,
+            title: req.body.title || `Drawing ${new Date().toLocaleString()}`,
+            createdAt: new Date()
+        });
+        
+        const savedDrawing = await drawing.save();
+        
+        resp.status(200).json({
+            success: true,
+            drawing: savedDrawing
+        });
+    } catch (error) {
+        console.error('Save drawing error:', error);
+        resp.status(500).json({ error: 'Failed to save drawing' });
+    }
+});
+
+// Add a route to get all drawings for a user
+app.get('/api/drawings/:userId', async (req, resp) => {
+    try {
+        const { userId } = req.params;
+        
+        // Verify user exists
+        const user = await User.findById(userId);
+        if (!user) {
+            return resp.status(404).json({ error: 'User not found' });
+        }
+        
+        const drawings = await Drawing.find({ userId }).sort({ createdAt: -1 });
+        
+        resp.status(200).json(drawings);
+    } catch (error) {
+        console.error('Get drawings error:', error);
+        resp.status(500).json({ error: 'Failed to get drawings' });
+    }
+});
+
+// Add a route to delete a drawing
+app.delete('/api/drawings/:drawingId', async (req, resp) => {
+    try {
+        const { drawingId } = req.params;
+        
+        const drawing = await Drawing.findById(drawingId);
+        if (!drawing) {
+            return resp.status(404).json({ error: 'Drawing not found' });
+        }
+        
+        // Delete the file from the filesystem
+        const filePath = path.join(__dirname, drawing.filepath);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+        
+        // Delete the drawing record
+        await Drawing.findByIdAndDelete(drawingId);
+        
+        resp.status(200).json({ message: 'Drawing deleted successfully' });
+    } catch (error) {
+        console.error('Delete drawing error:', error);
+        resp.status(500).json({ error: 'Failed to delete drawing' });
+    }
+});
+
+// Add a route to update drawing title
+app.put('/api/drawings/:drawingId', async (req, resp) => {
+    try {
+        const { drawingId } = req.params;
+        const { title } = req.body;
+        
+        if (!title || title.trim() === '') {
+            return resp.status(400).json({ error: 'Title cannot be empty' });
+        }
+        
+        const updatedDrawing = await Drawing.findByIdAndUpdate(
+            drawingId,
+            { title },
+            { new: true }
+        );
+        
+        if (!updatedDrawing) {
+            return resp.status(404).json({ error: 'Drawing not found' });
+        }
+        
+        resp.status(200).json(updatedDrawing);
+    } catch (error) {
+        console.error('Update drawing title error:', error);
+        resp.status(500).json({ error: 'Failed to update drawing title' });
+    }
+});
 
 app.post('/api/upload-profile-pic', upload.single('profilePicture'), async (req, resp) => {
     try {

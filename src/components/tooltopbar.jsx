@@ -6,7 +6,8 @@ import {
   ZoomOut, 
   File, 
   Edit, 
-  Download
+  Download,
+  Save  // Added Save icon
 } from 'lucide-react';
 import ProfileBar from '../components/profilebar';
 import styles from './styles/tooltopbar.module.css';
@@ -19,6 +20,7 @@ const TopToolbar = ({ canvasRef }) => {
   const [history, setHistory] = useState([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
   const [user, setUser] = useState(null);
+  const [isSaving, setIsSaving] = useState(false); // State to track saving progress
 
   // Add refs for dropdowns to handle closing when clicking outside
   const fileDropdownRef = useRef(null);
@@ -78,6 +80,64 @@ const TopToolbar = ({ canvasRef }) => {
     setFileDropdown(false);
     toggleExportDropdown();
   };
+
+  // Update the handleSaveImage function in tooltopbar.jsx
+
+const handleSaveImage = async () => {
+  if (!canvasRef || !canvasRef.current) {
+    console.error('Canvas reference not available');
+    return;
+  }
+
+  // Check if user is logged in
+  if (!user || user.role === 'guest') {
+    alert('Please log in to save your drawing');
+    setFileDropdown(false);
+    return;
+  }
+
+  try {
+    setIsSaving(true);
+    // Get the canvas element and convert to data URL
+    const canvas = canvasRef.current;
+    const dataURL = canvas.toDataURL('image/png');
+    
+    // Create a timestamp for the filename
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `drawing-${timestamp}.png`;
+    
+    // Convert data URL to blob
+    const response = await fetch(dataURL);
+    const blob = await response.blob();
+    
+    // Create form data
+    const formData = new FormData();
+    formData.append('image', blob, filename);
+    formData.append('userId', user._id); // Using MongoDB ObjectId
+    formData.append('title', `Drawing ${new Date().toLocaleString()}`);
+    
+    // Send the image to the server
+    const saveResponse = await fetch('http://localhost:5000/api/drawings/save', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!saveResponse.ok) {
+      const errorData = await saveResponse.json();
+      throw new Error(errorData.error || 'Failed to save drawing');
+    }
+    
+    const result = await saveResponse.json();
+    console.log('Drawing saved successfully:', result);
+    alert('Drawing saved successfully!');
+  } catch (error) {
+    console.error('Error saving drawing:', error);
+    alert(`Failed to save drawing: ${error.message}`);
+  } finally {
+    setIsSaving(false);
+    setFileDropdown(false);
+  }
+};
 
   // Export functions for different file formats
   const exportAsImage = (format) => {
@@ -187,11 +247,15 @@ const TopToolbar = ({ canvasRef }) => {
       if (e.ctrlKey && e.key === '-') {
         handleZoomOut();
       }
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        handleSaveImage();
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentHistoryIndex, canvasZoom]);
+  }, [currentHistoryIndex, canvasZoom, user]);
 
   return (
     <div className={styles.topToolbar}>
@@ -204,6 +268,9 @@ const TopToolbar = ({ canvasRef }) => {
           {fileDropdown && (
             <div className={styles.dropdown}>
               <button onClick={handleNewDrawing}>New Drawing</button>
+              <button onClick={handleSaveImage} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save Drawing'}
+              </button>
               <button onClick={handleExportFile}>Export File</button>
             </div>
           )}
