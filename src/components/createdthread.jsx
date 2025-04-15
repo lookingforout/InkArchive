@@ -54,22 +54,29 @@ const CreatedThread = ({ thread, owner }) => {
   return (
     <div className={styles.threadContainer}>
       <div className={styles.header}>
-        <img
-          src={owner.profilePicture && owner.profilePicture.startsWith('/uploads') 
-            ? `http://localhost:5000${owner.profilePicture}` 
-            : defaultPic}
-          alt="User Avatar"
-          className={styles.avatar}
-        />
-        <div className={styles.threadInfo}>
-          <h2 className={styles.threadTitle}>{thread.title}</h2>
-          <p className={styles.username}>by {owner.username}</p>
+        <div className={styles.threadInfoParent}>
+          <img
+            src={owner.profilePicture && owner.profilePicture.startsWith('/uploads') 
+              ? `http://localhost:5000${owner.profilePicture}` 
+              : defaultPic}
+            alt="User Avatar"
+            className={styles.avatar}
+          />
+          <div className={styles.threadInfo}>
+            <h2 className={styles.threadTitle}>{thread.title}</h2>
+            <p className={styles.username}>by {owner.username}</p>
+          </div>
         </div>
         <div>
           {user._id === owner._id ? <div className={styles.deleteBtn} onClick={handleDeleteThread}>Delete Thread</div> : ""}
         </div>
       </div>
       <div className={styles.contentBox}>
+        {thread.image && thread.image.startsWith('/uploads') 
+            ? <img className={styles.image} src={`http://localhost:5000${thread.image}`}/> 
+            : ""
+        }
+        <hr className={styles.line} />
         <p className={styles.content}>{thread.content}</p>
       </div>
 

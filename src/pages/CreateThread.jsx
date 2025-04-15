@@ -12,18 +12,21 @@ const CreateThread = () => {
   const [image, setImage] = useState("");
   const [user, setUser] = useState(null);
   const pathname = useLocation().pathname.split("/");
+  
+  // New states for image selection
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [savedDrawings, setSavedDrawings] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
       setUser(JSON.parse(userData))
     }
-  },[])
+  }, []);
 
   const handlePostThread = async () => {
     const category = pathname[pathname.length-1];
-
-    console.log(category[0]);
     
     try {
       const response = await fetch(`http://localhost:5000/forum/new_thread`, {
@@ -34,17 +37,45 @@ const CreateThread = () => {
         }
       });
       const result = await response.json();
-      console.log(result);
-    
       console.log("Thread Posted:", result);
       
       navigate(`/forum/${category}`);
-    }catch(err) {
-        console.error("Thread creation error:", err);
-    };
-  }
-  const handleAddImage = () => {
-    console.log("Add Image button clicked");
+    } catch(err) {
+      console.error("Thread creation error:", err);
+    }
+  };
+
+  // Modified to fetch and display saved drawings
+  const handleAddImage = async () => {
+    if (!user || user.role === 'guest') {
+      alert("You need to be logged in to add images");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`http://localhost:5000/api/drawings/${user._id}`);
+      if (response.ok) {
+        const drawings = await response.json();
+        setSavedDrawings(drawings);
+        setShowImageModal(true);
+      } else {
+        console.error("Failed to fetch drawings");
+      }
+    } catch (error) {
+      console.error("Error fetching drawings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSelectImage = (drawing) => {
+    setImage(drawing.filepath);
+    setShowImageModal(false);
+  };
+
+  const closeModal = () => {
+    setShowImageModal(false);
   };
 
   return (
@@ -55,9 +86,12 @@ const CreateThread = () => {
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
           <SearchBar onSearch={(query) => console.log("Search query:", query)} />
-          <ProfileBar username={user ? user.username : null} 
+          <ProfileBar 
+            username={user ? user.username : null} 
             profilePic={user ? user.profilePicture : null} 
-            isGuest={user && user.role === 'guest'} />        </div>
+            isGuest={user && user.role === 'guest'} 
+          />
+        </div>
         <h1 className={styles.header}>Create Thread</h1>
         <input
           type="text"
@@ -88,10 +122,65 @@ const CreateThread = () => {
             </svg>
           </button>
         </div>
+        
+        {image && (
+          <div className={styles.selectedImageContainer}>
+            <img 
+              src={`http://localhost:5000${image}`} 
+              alt="Selected drawing" 
+              className={styles.selectedImage} 
+            />
+            <button 
+              className={styles.removeImageButton} 
+              onClick={() => setImage("")}
+            >
+              Remove Image
+            </button>
+          </div>
+        )}
+        
         <button className={styles.postButton} onClick={handlePostThread}>
           Post Thread
         </button>
       </div>
+
+      {/* Image Selection Modal */}
+      {showImageModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <div className={styles.modalHeader}>
+              <h2>Select Drawing</h2>
+              <button className={styles.closeButton} onClick={closeModal}>×</button>
+            </div>
+            <div className={styles.modalContent}>
+              {isLoading ? (
+                <div className={styles.loadingIndicator}>Loading your drawings...</div>
+              ) : savedDrawings.length > 0 ? (
+                <div className={styles.drawingsGrid}>
+                  {savedDrawings.map((drawing) => (
+                    <div 
+                      key={drawing._id} 
+                      className={styles.drawingItem}
+                      onClick={() => handleSelectImage(drawing)}
+                    >
+                      <img 
+                        src={`http://localhost:5000${drawing.filepath}`} 
+                        alt={drawing.title} 
+                        className={styles.drawingThumbnail}
+                      />
+                      <div className={styles.drawingTitle}>{drawing.title}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.noDrawings}>
+                  You don't have any saved drawings yet.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
