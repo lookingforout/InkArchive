@@ -1,20 +1,23 @@
 .sidebarContainer {
   display: flex;
-  height: 100vh;
+  height: 100%;
 }
 
 .iconSidebar {
-  width: 64px;
+  width: 60px;
   background-color: #222222;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 16px;
+  padding-top: 20px;
 }
 
-.iconLink {
-  margin-bottom: 24px;
-  text-decoration: none;
+.categorySidebar {
+  width: 190px;
+  background-color: #111;
+  padding: 20px 10px;
+  overflow-y: auto;
 }
 
 .logoCircle {
@@ -23,46 +26,59 @@
   border-radius: 50%;
   background-color: #890e1b;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .logoImage {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
 }
 
-.forumIconCircle {
+.closeButton {
   width: 40px;
   height: 40px;
-  background-color: #141414;
+  border-radius: 50%;
+  background-color: #b22222;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: none;
 }
 
+.closeButton:hover {
+  background-color: #d42828;
+}
+
+.forumIconCircle,
 .artdeskIconCircle {
   width: 40px;
   height: 40px;
   background-color: #141414;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
 }
 
-.categorySidebar {
-  width: 256px;
-  background-color: #141414;
+.forumIconCircle:hover,
+.artdeskIconCircle:hover {
+  background-color: #b22222;
+}
+
+.iconLink {
+  text-decoration: none;
   color: white;
-}
-
-.categoryContainer {
-  padding: 8px;
-  margin-top: 16px;
 }
 
 .redHeader {
   background-color: #9d2431;
+  color: white;
   padding: 8px;
   margin-bottom: 4px;
 }
@@ -71,31 +87,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
 }
 
 .subCategory {
   padding-left: 16px;
   padding-top: 4px;
   padding-bottom: 4px;
+  color: white;
 }
 
 .sectionContainer {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.mainContent {
-  flex: 1;
-  background-color: #222222;
-  padding: 24px;
+.categoryContainer {
+  width: 100%;
 }
 
-.mainHeading {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 16px;
-}
-
-.mainText {
-  color: white;
+@media only screen and (max-width: 480px) {
+  .closeButton {
+    display: flex;
+  }
 }

@@ -1,7 +1,6 @@
 .container {
-  width: 90%;
+  width: 100%;
   max-width: 150vh;
-  margin: 0 auto;
   height: 70vh;
   display: flex;
   flex-direction: column;
@@ -31,16 +30,6 @@
   display: flex;
   flex-direction: column;
   padding: 0.5rem 0;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.6rem 1rem;
-  border-bottom: 1px solid #333;
-  background-color: #1e1e1e;
-  transition: background-color 0.2s ease;
 }
 
 .row:hover {
@@ -74,7 +63,6 @@
   font-size: 1rem;
 }
 
-    /* Add these styles to your artworksCollection.module.css file */
 
 .actions {
   display: flex;
@@ -102,7 +90,6 @@
   cursor: not-allowed;
 }
 
-/* Modify your existing header class to include space for the actions column */
 .header {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -111,11 +98,17 @@
   border-bottom: 1px solid rgb(70, 70, 70);
 }
 
-/* And also update your row class to match the header's columns */
 .row {
   display: grid;
+  width: 100%;
   grid-template-columns: 1fr auto auto;
   padding: 10px 15px;
   border-bottom: 1px solid rgb(70, 70, 70);
   align-items: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .scrollArea{
+    overflow: scroll;
+  }
 }

@@ -12,13 +12,13 @@
   top: 50%;
   left: 10px;
   transform: translateY(-50%);
-  fill: #757575; /* Icon color */
-  pointer-events: none; /* Makes sure the icon does not block input clicks */
+  fill: #757575;
+  pointer-events: none;
 }
 
 .input {
   width: 80%;
-  padding: 10px 10px 10px 35px; /* Add padding to the left for the icon */
+  padding: 10px 10px 10px 35px;
   border: none;
   border-radius: 8px;
   background-color: #212121;

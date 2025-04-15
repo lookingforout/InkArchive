@@ -32,12 +32,39 @@ body, html {
   z-index: 10;
   overflow-y: auto;
   overflow-x: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.menuButton {
+  display: none;
+  background-color: #b22222;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: background-color 0.2s;
+}
+
+.menuButton:hover {
+  background-color: #d42828;
 }
 
 @media only screen and (max-width: 480px) {
-  .sidebar{
-    display: none;
-    position: absolute;
+  .sidebar {
+    position: fixed;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+  
+  .menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -58,7 +85,7 @@ body, html {
 .topBar {
   display: flex;
   align-items: center;
-  gap:10px;
+  gap: 10px;
   width: 100%;
   margin-bottom: 10px;
 }

@@ -8,9 +8,9 @@ import styles from "../styles/ArtDesk.module.css";
 
 const ArtDesk = () => {
   const [user, setUser] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
     
   useEffect(() => {
-    // Get user data from localStorage
     const userData = localStorage.getItem('user');
     if (userData) {
       setUser(JSON.parse(userData));
@@ -21,16 +21,28 @@ const ArtDesk = () => {
     console.log("Search query:", query);
   };
 
-  // Check if user is a guest
   const isGuest = user && user.role === 'guest';
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
 
   return (
     <div className={styles.artDeskContainer}>
-      <div className={styles.sidebar}>
-        <ArtDeskSidebar />
+        <div className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+        <ArtDeskSidebar isOpen={sidebarOpen} onClose={closeSidebar} />
       </div>
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
+          <button className={styles.menuButton} onClick={toggleSidebar}>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M3 12h18M3 6h18M3 18h18"></path>
+            </svg>
+          </button>
           <SearchBar onSearch={handleSearch} />
           <ProfileBar 
             username={user ? user.username : null} 

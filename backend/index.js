@@ -262,8 +262,48 @@ app.get("/forum/thread/:id", async (req, resp) => {
     }
 });
   
+// Middleware to validate thread creation request
+const validateThreadCreation = (req, res, next) => {
+    const { title, content, owner, category } = req.body;
+    
+    const errors = [];
+    
+    // Check if required fields are present and not empty
+    if (!title || title.trim() === '') {
+      errors.push('Title is required');
+    }
+    
+    if (!content || content.trim() === '') {
+      errors.push('Content is required');
+    }
+    
+    if (!owner || owner.trim() === '') {
+      errors.push('Owner is required');
+    }
+    
+    if (!category) {
+      errors.push('Category is required');
+    } else {
+      // Validate that category is one of the allowed values
+      const validCategories = ['general', 'announcements', 'creatorcorner', 'arttrading', 'artdiscussion'];
+      if (!validCategories.includes(category)) {
+        errors.push('Invalid category');
+      }
+    }
+    
+    // If there are validation errors, return a 400 response
+    if (errors.length > 0) {
+      return res.status(400).json({ 
+        error: 'Validation failed', 
+        details: errors 
+      });
+    }
+    
+    // If validation passes, proceed to the next middleware/route handler
+    next();
+  };
   
-app.post("/forum/new_thread", async (req, resp) => {
+app.post("/forum/new_thread", validateThreadCreation, async (req, resp) => {
     try{
         const thread = Thread(req.body);
         let result = await thread.save();

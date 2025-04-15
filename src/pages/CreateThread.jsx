@@ -37,6 +37,9 @@ const CreateThread = () => {
         }
       });
       const result = await response.json();
+      if(result.error){
+        return alert(result.error);
+      }
       console.log("Thread Posted:", result);
       
       navigate(`/forum/${category}`);

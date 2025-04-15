@@ -1,15 +1,21 @@
 import React from 'react';
 import styles from './styles/sidebar.module.css';
 
-const Sidebar = () => {
+const ArtDeskSidebar = ({ isOpen, onClose }) => {
   return (
-    <div className={styles.sidebarContainer}>
+    <div className={`${styles.sidebarContainer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.iconSidebar}>
         <a href="/" className={styles.iconLink}>
           <div className={styles.logoCircle}>
             <img src="../src/assets/logo.png" alt="Logo" className={styles.logoImage} />
           </div>
         </a>
+        <div className={styles.closeButton} onClick={onClose}>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </div>
+        
         <a href="/forum" className={styles.iconLink}>
           <div className={styles.forumIconCircle}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" strokeWidth="2">
@@ -38,4 +44,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default ArtDeskSidebar;

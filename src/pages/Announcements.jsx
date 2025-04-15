@@ -10,9 +10,9 @@ const Announcements = () => {
   const [user, setUser] = useState(null);
   const [threads, setThreads] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    // Get user data from localStorage
     const userData = localStorage.getItem('user');
     if (userData) {
       setUser(JSON.parse(userData));
@@ -38,17 +38,30 @@ const Announcements = () => {
     handleThreads();
   }, []);
 
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   const handleSearch = (query) => {
     console.log("Search query:", query);
   };
 
   return (
     <div className={styles.forumContainer}>
-      <div className={styles.sidebar}>
-        <Sidebar />
+      <div className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+        <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
       </div>
       <div className={styles.mainContent}>
         <div className={styles.topBar}>
+          <button className={styles.menuButton} onClick={toggleSidebar}>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M3 12h18M3 6h18M3 18h18"></path>
+            </svg>
+          </button>
           <SearchBar onSearch={handleSearch} />
           <ProfileBar 
             username={user ? user.username : null} 
