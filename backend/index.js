@@ -504,6 +504,24 @@ app.put('/api/drawings/:drawingId', async (req, resp) => {
     }
 });
 
+// On your backend
+app.get('/api/drawings/download/:id', async (req, res) => {
+    try {
+      const drawing = await Drawing.findById(req.params.id);
+      if (!drawing) {
+        return res.status(404).send('Drawing not found');
+      }
+      
+      // Send the SVG content with appropriate headers
+      res.setHeader('Content-Type', 'image/svg+xml');
+      res.setHeader('Content-Disposition', `attachment; filename="${drawing.title || 'untitled'}.svg"`);
+      res.send(drawing.svgContent); // Assuming your drawing model has svgContent field
+    } catch (error) {
+      console.error('Error downloading drawing:', error);
+      res.status(500).send('Server error');
+    }
+  });
+
 app.post('/api/upload-profile-pic', upload.single('profilePicture'), async (req, resp) => {
     try {
         if (!req.file) {

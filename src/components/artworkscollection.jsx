@@ -5,6 +5,7 @@ const ArtworksCollection = ({ userId }) => {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [downloadStatus, setDownloadStatus] = useState({});
 
   useEffect(() => {
     const fetchArtworks = async () => {
@@ -14,7 +15,6 @@ const ArtworksCollection = ({ userId }) => {
           return;
         }
         
-        // Make sure URL is correct and also check for response type
         const response = await fetch(`http://localhost:5000/api/drawings/${userId}`);
         
         const contentType = response.headers.get("content-type");
@@ -41,7 +41,6 @@ const ArtworksCollection = ({ userId }) => {
   }, [userId]);
 
   const handleTitleChange = (drawingId, newTitle) => {
-    // Store the new title temporarily (not sending to server until blur)
     setArtworks(prevArtworks => 
       prevArtworks.map(art => 
         art._id === drawingId ? { ...art, title: newTitle } : art
@@ -64,11 +63,68 @@ const ArtworksCollection = ({ userId }) => {
       if (!response.ok) {
         throw new Error('Failed to update drawing title');
       }
-      
-      // Update was successful, no need to do anything else since state is already updated
     } catch (error) {
       console.error('Error updating drawing title:', error);
-      // Optionally revert back to the original title
+    }
+  };
+
+  const handleDownload = async (artwork) => {
+    try {
+      setDownloadStatus(prev => ({ ...prev, [artwork._id]: 'loading' }));
+      
+      // Get the full image URL from the filepath
+      const imageUrl = `http://localhost:5000${artwork.filepath}`;
+      
+      // Fetch the image file
+      const response = await fetch(imageUrl);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to download image (${response.status})`);
+      }
+      
+      // Convert the response to a blob
+      const blob = await response.blob();
+      
+      // Extract extension from filename or filepath
+      let extension = 'png'; // Default extension
+      if (artwork.filename) {
+        const parts = artwork.filename.split('.');
+        if (parts.length > 1) {
+          extension = parts[parts.length - 1];
+        }
+      }
+      
+      // Create a download link and trigger download
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(blob);
+      downloadLink.download = `${artwork.title || 'Untitled'}.${extension}`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+      
+      setDownloadStatus(prev => ({ ...prev, [artwork._id]: 'success' }));
+      
+      // Reset status after a delay
+      setTimeout(() => {
+        setDownloadStatus(prev => {
+          const newStatus = { ...prev };
+          delete newStatus[artwork._id];
+          return newStatus;
+        });
+      }, 2000);
+      
+    } catch (error) {
+      console.error("Failed to download drawing:", error);
+      setDownloadStatus(prev => ({ ...prev, [artwork._id]: 'error' }));
+      
+      // Reset error status after delay
+      setTimeout(() => {
+        setDownloadStatus(prev => {
+          const newStatus = { ...prev };
+          delete newStatus[artwork._id];
+          return newStatus;
+        });
+      }, 3000);
     }
   };
 
@@ -77,6 +133,7 @@ const ArtworksCollection = ({ userId }) => {
       <div className={styles.header}>
         <span>Title</span>
         <span>Created</span>
+        <span>Actions</span>
       </div>
       <div className={styles.scrollArea}>
         {loading ? (
@@ -99,6 +156,17 @@ const ArtworksCollection = ({ userId }) => {
               <span className={styles.date}>
                 {new Date(artwork.createdAt).toLocaleDateString()}
               </span>
+              <div className={styles.actions}>
+                <button 
+                  className={styles.downloadBtn}
+                  onClick={() => handleDownload(artwork)}
+                  disabled={downloadStatus[artwork._id] === 'loading'}
+                >
+                  {downloadStatus[artwork._id] === 'loading' ? 'Downloading...' : 
+                   downloadStatus[artwork._id] === 'success' ? 'Downloaded!' : 
+                   downloadStatus[artwork._id] === 'error' ? 'Failed' : 'Download'}
+                </button>
+              </div>
             </div>
           ))
         )}

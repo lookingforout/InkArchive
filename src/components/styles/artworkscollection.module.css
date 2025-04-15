@@ -1,76 +1,121 @@
 .container {
-    width: 90%;
-    max-width: 150vh;
-    margin: 0 auto;
-    height: 70vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #2c2c2c;
-    color: white;
-    font-family: Arial, sans-serif;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.6rem 1rem;
-    font-weight: bold;
-    font-size: 0.9rem;
-    background-color: #1e1e1e;
-  }
-  
-  .scrollArea {
-    flex-grow: 1;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-  }
-  
-  .body {
-    display: flex;
-    flex-direction: column;
-    padding: 0.5rem 0;
-  }
-  
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.6rem 1rem;
-    border-bottom: 1px solid #333;
-    background-color: #1e1e1e;
-    transition: background-color 0.2s ease;
-  }
-  
-  .row:hover {
-    background-color: #2a2a2a;
-  }
-  
-  .input {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 0.95rem;
-    flex-grow: 1;
-    outline: none;
-  }
-  
-  .input::placeholder {
-    color: #888;
-  }
-  
-  .date {
-    color: #ccc;
-    font-size: 0.85rem;
-    width: 90px;
-    text-align: right;
-  }
-  
-  .message {
-    padding: 2rem;
-    text-align: center;
-    color: #aaa;
-    font-size: 1rem;
-  }
-  
+  width: 90%;
+  max-width: 150vh;
+  margin: 0 auto;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #2c2c2c;
+  color: white;
+  font-family: Arial, sans-serif;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  background-color: #1e1e1e;
+}
+
+.scrollArea {
+  flex-grow: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #333;
+  background-color: #1e1e1e;
+  transition: background-color 0.2s ease;
+}
+
+.row:hover {
+  background-color: #2a2a2a;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 0.95rem;
+  flex-grow: 1;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #888;
+}
+
+.date {
+  color: #ccc;
+  font-size: 0.85rem;
+  width: 90px;
+  text-align: right;
+}
+
+.message {
+  padding: 2rem;
+  text-align: center;
+  color: #aaa;
+  font-size: 1rem;
+}
+
+    /* Add these styles to your artworksCollection.module.css file */
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 100px;
+}
+
+.downloadBtn {
+  background-color: #9D2431;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.downloadBtn:hover {
+  background-color: #8B0000;
+}
+
+.downloadBtn:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+/* Modify your existing header class to include space for the actions column */
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid rgb(70, 70, 70);
+}
+
+/* And also update your row class to match the header's columns */
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgb(70, 70, 70);
+  align-items: center;
+}
