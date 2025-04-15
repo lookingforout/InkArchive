@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '../components/styles/postcomment.module.css';
 import { useLocation } from 'react-router-dom';
 
-const PostInput = () => {
+const PostInput = ({ refreshComments}) => {
   const [user, setUser] = useState(null);
   const [content, setContent] = useState("");
   const pathname = useLocation().pathname.split("/");
+  const id = pathname[pathname.length-1];
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -18,16 +19,20 @@ const PostInput = () => {
     }
   },[]);
 
-  const handlePost = async () => {
+  const handlePost = async () => {    
     const response = await fetch(`http://localhost:5000/forum/thread/create_comment`, {
       method: 'POST',
-      body: JSON.stringify({ post: pathname[pathname-1], owner: user._id, content: fileInputRef }),
+      body: JSON.stringify({ post: id, owner: user._id, content: content }),
       headers: {
         'Content-Type': 'application/json'
       }
     });
     const result = await response.json();
+    document.getElementById("text").value="";
     console.log(result);
+    if (refreshComments) {
+      refreshComments();
+    }
   };
   
 
@@ -35,16 +40,12 @@ const PostInput = () => {
     <div className={styles.postContainer}>
       <div className={styles.inputWrapper}>
         <textarea
+          id="text"
           className={styles.textArea}
           placeholder="Write something..."
           onChange={(e)=>{setContent(e.currentTarget.value)}}
         />
         <div className={styles.imageIcon} onClick={handleImageClick}>
-          <input
-            type="file"
-            accept="image/*"
-            className={styles.hiddenInput}
-          />
         </div>
       </div>
       <button className={styles.postButton} onClick={handlePost}>
