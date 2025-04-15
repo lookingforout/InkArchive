@@ -1,117 +1,201 @@
 .loginContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url('src/assets/LoginRegisterBG.png');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-  }
-  
-  .backButton {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    cursor: pointer;
-  }
-  
-  .loginWrapper {
-    display: flex;
-    background-color: rgba(30, 30, 30, 0.8);
-    border-radius: 10px;
-    overflow: hidden;
-    width: 800px;
-    height: 500px;
-  }
-  
-  .logoSection {
-    width: 40%;
-    background-color: #141414;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    padding: 20px;
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .logo img {
-    width: 250px;
-    margin-right: 5px;
-  }
-  
-  .tagline {
-    text-align: center;
-    color: #888;
-  }
-  
-  .formSection {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 40px;
-    color: white;
-  }
-  
-  .formSection h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .formSection form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formSection input {
-    margin-bottom: 15px;
-    padding: 10px;
-    background-color: #333;
-    border: none;
-    color: white;
-    border-radius: 5px;
-  }
-  
-  .forgotPassword {
-    align-self: flex-end;
-    background: none;
-    border: none;
-    color: #888;
-    cursor: pointer;
-    margin-bottom: 15px;
-  }
-  
-  .loginButton {
-    background-color: #8B0000;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .registerLink {
-    text-align: center;
-    margin-top: 15px;
-    color: #888;
-  }
-  
-  .registerLink a {
-    color: #8B0000;
-    text-decoration: none;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('src/assets/LoginRegisterBG.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
 
-  .errorMessage {
-    color: #ff3333;
-    margin: 5px 0;
-    font-size: 14px;
-    text-align: left;
-  }
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
+.loginWrapper {
+  display: flex;
+  background-color: rgba(30, 30, 30, 0.8);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 800px;
+  height: 500px;
+}
+
+.logoSection {
+  width: 40%;
+  background-color: #141414;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 250px;
+  margin-right: 5px;
+}
+
+.tagline {
+  text-align: center;
+  color: #888;
+}
+
+.formSection {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  color: white;
+}
+
+.formSection h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formSection form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formSection input {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #333;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.forgotPassword {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.loginButton {
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registerLink {
+  text-align: center;
+  margin-top: 15px;
+  color: #888;
+}
+
+.registerLink a {
+  color: #8B0000;
+  text-decoration: none;
+}
+
+.errorMessage {
+  color: #ff3333;
+  margin: 5px 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+* {
+box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+.loginWrapper {
+  width: 90%;
+  height: auto;
+  flex-direction: column;
+}
+
+.logoSection,
+.formSection {
+  width: 100%;
+}
+
+.formSection {
+  padding: 30px 20px;
+}
+
+.logo img {
+  width: 200px;
+}
+
+.formSection input {
+  width: 100%;
+}
+
+.loginButton {
+  width: 100%;
+}
+}
+
+@media (max-width: 600px) {
+.loginContainer {
+  padding: 20px;
+}
+
+.backButton {
+  top: 10px;
+  left: 10px;
+}
+
+.loginWrapper {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.logo img {
+  width: 150px;
+}
+
+.formSection h2 {
+  font-size: 20px;
+}
+
+.formSection input,
+.loginButton {
+  font-size: 14px;
+  padding: 8px;
+}
+
+.formSection {
+  padding: 20px 15px;
+}
+
+.forgotPassword,
+.registerLink {
+  font-size: 12px;
+}
+
+.tagline {
+  font-size: 12px;
+}
+
+.formSection input {
+  width: 100%;
+}
+
+.loginButton {
+  width: 100%;
+}
+}

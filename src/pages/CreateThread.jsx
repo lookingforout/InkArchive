@@ -106,7 +106,9 @@ const CreateThread = () => {
             placeholder="Write your thread content here..."
             value={threadContent}
             onChange={(e) => setThreadContent(e.target.value)}
-          ></textarea>
+          >
+            
+          </textarea>
           <button className={styles.addImageButton} onClick={handleAddImage}>
             <svg
               fill="#6b6868"
